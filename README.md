@@ -8,7 +8,7 @@ A very simple, generic single-file log for deep learning.
 python3 -m venv .venv
 source .venv/bin/activate
 pip install --upgrade setuptools wheel
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 
 ./run
 ```
