@@ -1,4 +1,6 @@
+import gzip
 import io as pyio
+import os
 from typing import Any
 
 import pytest
@@ -35,5 +37,31 @@ def test_jsonlines_context():
 
 def test_read_write_jsonlines(tmp_path):
     items = [dict(a=1, b=None), dict(c=True)]
-    io.write_jsonlines(tmp_path / "test.jsonl", items)
-    assert list(io.read_jsonlines(tmp_path / "test.jsonl")) == items
+
+    for filename in ["test.jsonl", "test.jsonl.gz"]:
+        io.write_jsonlines(tmp_path / filename, items)
+        assert list(io.read_jsonlines(tmp_path / filename)) == items
+
+
+def test_gzip(tmp_path):
+    original = tmp_path / "original.txt"
+    with open(original, "w") as f:
+        f.write("one\ntwo\n")
+
+    io.gzip(original)
+
+    assert not os.path.isfile(original)
+    with gzip.open(tmp_path / "original.txt.gz", "rt") as f:
+        assert list(f) == ["one\n", "two\n"]
+
+
+def test_gzip_custom(tmp_path):
+    original = tmp_path / "original.txt"
+    with open(original, "w") as f:
+        f.write("one\ntwo\n")
+
+    io.gzip(original, extension=".gzip", delete=False, chunk_size=7)
+
+    assert os.path.isfile(original)
+    with gzip.open(tmp_path / "original.txt.gzip", "rt") as f:
+        assert list(f) == ["one\n", "two\n"]

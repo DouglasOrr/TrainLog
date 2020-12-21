@@ -1,5 +1,5 @@
 [tool.pylint."BASIC"]
-good-names = ["i", "j", "k", "ex", "fn", "T"]
+good-names = ["i", "j", "k", "f", "ex", "fn", "T"]
 
 [tool.isort]
 # Compatible with black (https://black.readthedocs.io/en/stable/compatible_configs.html)
