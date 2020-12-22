@@ -1,2 +1,2 @@
 """A basic single-file logging library, designed for deep learning"""
-from . import io  # noqa: F401
+from . import io, logger  # noqa: F401

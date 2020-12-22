@@ -1,6 +1,9 @@
 [tool.pylint."BASIC"]
 good-names = ["i", "j", "k", "f", "ex", "fn", "T"]
 
+[tool.pylint."SIMILARITIES"]
+min-similarity-lines = 8
+
 [tool.isort]
 # Compatible with black (https://black.readthedocs.io/en/stable/compatible_configs.html)
 multi_line_output = 3
@@ -11,4 +14,7 @@ ensure_newline_before_comments = true
 line_length = 88
 
 [tool.pytest.ini_options]
-addopts = "--cov=trainlog --no-cov-on-fail --cov-fail-under=100 --cov-report=term-missing:skip-covered"
+addopts = "--cov=trainlog/ --no-cov-on-fail --cov-fail-under=100 --cov-report=term-missing:skip-covered"
+
+[tool.coverage.report]
+exclude_lines = ["pragma: no cover", "\\.\\.\\.", "assert False"]

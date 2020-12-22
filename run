@@ -83,11 +83,19 @@ def lint() -> None:
 
 
 @cli("-k", "--only", help="pattern to select tests")
-def test(only: Optional[str]) -> None:
+@cli(
+    "-s",
+    "--no-capture",
+    dest="capture",
+    action="store_false",
+    help="disable test output capturing",
+)
+def test(only: Optional[str], capture: bool) -> None:
     """run unit tests"""
     run(
         "pytest",
         f"-k {only}" if only else None,
+        None if capture else "--capture=no",
         *(src for src in SOURCES if os.path.isdir(src)),
     )
 
@@ -95,7 +103,7 @@ def test(only: Optional[str]) -> None:
 @cli("--no-format", action="store_true")
 def check(no_format: bool) -> None:
     """run all pre-flight checks"""
-    test(None)
+    test(only=None, capture=True)
     format(no_format=no_format)
     lint()
 

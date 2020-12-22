@@ -53,6 +53,10 @@ class JsonLinesIO(Generic[T]):
         """Close the underlying text stream."""
         self.stream.close()
 
+    def flush(self) -> None:
+        """Flush the underlying text stream."""
+        self.stream.flush()
+
     def write(self, obj: T, **dump_args: Any) -> None:
         """Write an object to the file, as a JSON entry on a single line."""
         dump_args.setdefault("separators", (",", ":"))

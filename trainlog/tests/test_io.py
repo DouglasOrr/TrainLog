@@ -15,6 +15,7 @@ def test_jsonlines():
     json.write(dict(a=1, b="2"))
     json.write(None)
     json.write(dict(a=10, b="20"))
+    json.flush()
 
     json.stream.seek(0)
     assert json.read() == dict(a=1, b="2")
