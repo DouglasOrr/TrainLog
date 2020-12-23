@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import functools as ft
 import gzip as gzip_
 import json
 import os
@@ -9,17 +10,104 @@ import typing
 from types import TracebackType
 from typing import (
     Any,
+    Callable,
     Dict,
     Generic,
     Iterable,
     Iterator,
     Optional,
     TextIO,
+    Tuple,
     Type,
     TypeVar,
 )
 
 T = TypeVar("T")
+
+NUMPY_DICT_KEY = "__numpy_dict"
+
+
+def numpy_to_dict(array: Any) -> Dict[str, Any]:
+    """Convert a numpy array to a JSON-able dictionary, `numpy_from_dict` restores."""
+    return {
+        NUMPY_DICT_KEY: 0,
+        "shape": list(array.shape),
+        "dtype": array.dtype.base.name,
+        "items": array.flatten().tolist(),
+    }
+
+
+def numpy_from_dict(dict_: Dict[str, Any]) -> Any:
+    """Convert a JSON-able dictionary from `numpy_to_dict` back to a numpy array.
+
+    This test identifies valid `dict`:
+
+        if trainlog.io.NUMPY_DICT_KEY in dict_:
+            array = numpy_from_dict(dict_)
+    """
+    import numpy as np  # type: ignore  # pylint: disable=import-outside-toplevel
+
+    assert dict_[NUMPY_DICT_KEY] == 0
+    shape = tuple(dict_["shape"])
+    dtype = np.dtype(dict_["dtype"])
+    items = dict_["items"]
+    return np.array(items, dtype=dtype).reshape(shape)
+
+
+class JSONEncoderWithNumpy(json.JSONEncoder):
+    """Add numpy array support using `numpy_to_dict`."""
+
+    def default(self, o: Any) -> Any:
+        if type(o).__name__ == "ndarray":
+            return numpy_to_dict(o)
+        return super().default(o)
+
+
+ObjectHook = Callable[[Dict[str, Any]], Any]
+ObjectPairsHook = Callable[[Iterable[Tuple[str, Any]]], Any]
+
+
+class JSONDecoderWithNumpy(json.JSONDecoder):
+    """Add numpy array support using `numpy_from_dict`."""
+
+    @staticmethod
+    def create_object_hook(
+        next_hook: Optional[ObjectHook], dict_: Dict[str, Any]
+    ) -> Any:
+        """Create a chained object_hook, which tries `numpy_from_dict` first."""
+        if NUMPY_DICT_KEY in dict_:
+            return numpy_from_dict(dict_)
+        if next_hook is not None:
+            return next_hook(dict_)
+        return dict_
+
+    @staticmethod
+    def create_object_pairs_hook(
+        next_hook: ObjectPairsHook, obj_pairs: Iterable[Tuple[str, Any]]
+    ) -> Any:
+        """Create a chained object_pairs_hook, which tries `numpy_from_dict` first."""
+        dict_ = dict(obj_pairs)
+        if NUMPY_DICT_KEY in dict_:
+            return numpy_from_dict(dict_)
+        return next_hook(obj_pairs)
+
+    def __init__(
+        self,
+        *,
+        object_hook: Optional[ObjectHook] = None,
+        object_pairs_hook: Optional[ObjectPairsHook] = None,
+        **args: Any
+    ):
+        object_pairs_hook = (
+            ft.partial(self.create_object_pairs_hook, object_pairs_hook)
+            if object_pairs_hook is not None
+            else None
+        )
+        super().__init__(
+            object_hook=ft.partial(self.create_object_hook, object_hook),
+            object_pairs_hook=object_pairs_hook,
+            **args
+        )
 
 
 class JsonLinesIO(Generic[T]):
@@ -31,9 +119,21 @@ class JsonLinesIO(Generic[T]):
     """
 
     stream: TextIO
+    dump_args: Dict[str, Any]
+    load_args: Dict[str, Any]
 
-    def __init__(self, stream: TextIO):
+    def __init__(
+        self,
+        stream: TextIO,
+        dump_args: Optional[Dict[str, Any]] = None,
+        load_args: Optional[Dict[str, Any]] = None,
+    ):
         self.stream = stream
+        self.dump_args = dump_args.copy() if dump_args else {}
+        self.dump_args.setdefault("separators", (",", ":"))
+        self.dump_args.setdefault("cls", JSONEncoderWithNumpy)
+        self.load_args = load_args.copy() if load_args else {}
+        self.load_args.setdefault("cls", JSONDecoderWithNumpy)
 
     def __enter__(self) -> JsonLinesIO[T]:
         return self
@@ -57,13 +157,12 @@ class JsonLinesIO(Generic[T]):
         """Flush the underlying text stream."""
         self.stream.flush()
 
-    def write(self, obj: T, **dump_args: Any) -> None:
+    def write(self, obj: T) -> None:
         """Write an object to the file, as a JSON entry on a single line."""
-        dump_args.setdefault("separators", (",", ":"))
-        json.dump(obj, self.stream, **dump_args)
+        json.dump(obj, self.stream, **self.dump_args)
         self.stream.write("\n")
 
-    def read(self, **load_args: Any) -> T:
+    def read(self) -> T:
         """Read a single object from the file.
 
         Throws EOFError if there are no more JSON objects in the file.
@@ -73,7 +172,7 @@ class JsonLinesIO(Generic[T]):
             raise EOFError(
                 "Attempting to read JSON data past the end of stream", self.stream
             )
-        return typing.cast(T, json.loads(line, **load_args))
+        return typing.cast(T, json.loads(line, **self.load_args))
 
     def objects(self) -> Iterator[T]:
         """An iterator over objects in the file."""
@@ -100,9 +199,11 @@ def open_maybe_gzip(
     return typing.cast(TextIO, open(path, mode))
 
 
-def read_jsonlines(path: str) -> Iterator[T]:
+def read_jsonlines(
+    path: str, load_args: Optional[Dict[str, Any]] = None
+) -> Iterator[T]:
     """Read JSON Lines from a local filesystem path."""
-    with JsonLinesIO[T](open_maybe_gzip(path)) as reader:
+    with JsonLinesIO[T](open_maybe_gzip(path), load_args=load_args) as reader:
         yield from reader
 
 
@@ -110,9 +211,9 @@ def write_jsonlines(
     path: str, objects: Iterable[T], dump_args: Optional[Dict[str, Any]] = None
 ) -> None:
     """Write JSON Lines to a local filesystem path."""
-    with JsonLinesIO[T](open_maybe_gzip(path, "w")) as writer:
+    with JsonLinesIO[T](open_maybe_gzip(path, "w"), dump_args=dump_args) as writer:
         for obj in objects:
-            writer.write(obj, **(dump_args or {}))
+            writer.write(obj)
 
 
 def gzip(

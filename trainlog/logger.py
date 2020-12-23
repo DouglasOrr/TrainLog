@@ -32,7 +32,7 @@ LogLineScope = Callable[[Event], ContextManager[None]]
 class Writer(Protocol):
     """Stream capable of writing general objects (e.g. io.JsonLinesIO)."""
 
-    def write(self, obj: Event, **args: Any) -> None:
+    def write(self, obj: Event) -> None:
         """Write out a single event."""
         ...
 
