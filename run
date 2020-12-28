@@ -69,10 +69,15 @@ def format(no_format: bool) -> None:  # pylint: disable=redefined-builtin
 
 
 @cli()
-def lint() -> None:
-    """run linters to statically check the code"""
+def types() -> None:
+    """run mypy to statically check types"""
     run("mypy", "--strict", *sources("main"))
     run("mypy", *sources("tests"))
+
+
+@cli()
+def lint() -> None:
+    """run linters to statically check the code"""
     run("flake8", *sources())
     run("pylint", *sources("main"))
     run(
@@ -105,6 +110,7 @@ def check(no_format: bool) -> None:
     """run all pre-flight checks"""
     test(only=None, capture=True)
     format(no_format=no_format)
+    types()
     lint()
 
 

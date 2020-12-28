@@ -1,5 +1,5 @@
 [tool.pylint."BASIC"]
-good-names = ["i", "j", "k", "f", "ex", "fn", "T"]
+good-names = ["i", "j", "k", "f", "ex", "op", "fn", "df", "T"]
 
 [tool.pylint."SIMILARITIES"]
 min-similarity-lines = 8
@@ -17,4 +17,4 @@ line_length = 88
 addopts = "--cov=trainlog/ --no-cov-on-fail --cov-fail-under=100 --cov-report=term-missing:skip-covered"
 
 [tool.coverage.report]
-exclude_lines = ["pragma: no cover", "\\.\\.\\.", "assert False"]
+exclude_lines = ["pragma: no cover", "\\.\\.\\.", "assert False", "raise NotImplementedError"]

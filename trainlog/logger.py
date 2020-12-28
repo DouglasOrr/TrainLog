@@ -34,15 +34,15 @@ class Writer(Protocol):
 
     def write(self, obj: Event) -> None:
         """Write out a single event."""
-        ...
+        raise NotImplementedError
 
     def flush(self) -> None:
         """Flush the underlying stream - write out the buffered data."""
-        ...
+        raise NotImplementedError
 
     def close(self) -> None:
         """Close the underlying stream."""
-        ...
+        raise NotImplementedError
 
 
 @contextlib.contextmanager
@@ -216,13 +216,22 @@ class Log:
 class JsonLinesFileLog(Log):
     """A standard log that uses a `trainlog.io.JsonLinesIO` writer to a local file."""
 
-    def __init__(self, path: str, gzip_on_close: bool = True, **args: Any):
+    def __init__(
+        self,
+        path: str,
+        gzip_on_close: bool = True,
+        dump_args: Optional[Dict[str, Any]] = None,
+        **args: Any,
+    ):
         """Create a JsonLines writer the the given local path.
 
         If `gzip_on_close` is True, after the log is closed, the file is compressed
         to `<path>.gz` and the original deleted.
         """
-        super().__init__(io.JsonLinesIO[Event](builtins.open(path, "w")), **args)
+        super().__init__(
+            io.JsonLinesIO[Event](builtins.open(path, "w"), dump_args=dump_args),
+            **args,
+        )
         self.path = path
         self.gzip_on_close = gzip_on_close
 
