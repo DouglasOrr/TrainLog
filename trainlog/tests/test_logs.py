@@ -38,6 +38,27 @@ def test_jsonlines_file_empty(tmp_path):
     assert list(log) == []
 
 
+def _assert_array_equal(left, right):
+    np.testing.assert_equal(left, right)
+    assert left.dtype == right.dtype
+
+
+def test_list_to_array():
+    assert logs.list_to_array([]).shape == (0,)
+    _assert_array_equal(
+        logs.list_to_array([1, 2, 3]), np.array([1, 2, 3], dtype=np.int)
+    )
+    _assert_array_equal(
+        logs.list_to_array([1, None, 2]), np.array([1, np.nan, 2], dtype=np.float)
+    )
+    _assert_array_equal(
+        logs.list_to_array([1, None, []]), np.array([1, None, []], dtype=np.object)
+    )
+    objarray = logs.list_to_array([[1, 2], [3, 4], [5, 6]])
+    assert objarray.shape == (3,)
+    assert objarray.dtype == np.object
+
+
 def test_log():
     log = logs.Log(
         (
@@ -78,6 +99,40 @@ def test_log_transform():
     df = tlog["step"].to_pandas()
     assert set(df.columns) == {"kind", "loss", "lr"}
     np.testing.assert_equal(df.loss.array, [10, 5])
+
+
+def test_log_columns():
+    # pylint: disable=no-member
+    log = logs.Log(
+        (
+            dict(kind="step", loss=10),
+            dict(kind="step", loss=9),
+            dict(kind="valid", loss=100, error_rate=0.1),
+            dict(kind="step", loss=8),
+        )
+    )
+
+    unordered_columns = log.to_columns()
+    assert len(unordered_columns) == 3
+    assert "error_rate" in repr(unordered_columns)
+    assert unordered_columns.kind.dtype.kind == "U"  # type:ignore[attr-defined]
+    np.testing.assert_equal(
+        unordered_columns.loss, [10, 9, 100, 8]  # type:ignore[attr-defined]
+    )
+    np.testing.assert_equal(
+        unordered_columns["error_rate"], [np.nan, np.nan, 0.1, np.nan]
+    )
+    with pytest.raises(ValueError):
+        unordered_columns[0]  # pylint:disable=pointless-statement
+    assert set(unordered_columns.to_pandas().columns) == {"kind", "loss", "error_rate"}
+
+    ordered_columns = log.to_columns("kind", "loss")
+    assert len(ordered_columns) == 2
+    assert repr(ordered_columns) == "Columns('kind', 'loss')"
+    np.testing.assert_equal(ordered_columns[1], [10, 9, 100, 8])
+    np.testing.assert_equal(ordered_columns["loss"], [10, 9, 100, 8])
+
+    assert tuple(ordered_columns.to_pandas().columns) == ("kind", "loss")
 
 
 def test_log_no_header():
