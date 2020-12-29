@@ -21,3 +21,7 @@ We prefer to write all relevant information to a single file. E.g. instead of `(
 ## Header line
 
 Experiment runs usually associate substantial "one off" information - hyperparameters, execution environment, etc. This information can be stored separately (e.g. `(settings.json, log.jsonl)`), but in keeping with our _single file_ principle we'd like to keep it together. A header line at the beginning of the log file provides a standard place for this.
+
+## A custom `trainlog.ops` library for transforming logs
+
+Event logs containing different types of events can be slightly annoying to analyse. E.g. a sensible logging scheme would be to put experiment hyperparameters in the _header_ event, training steps in _step_ events and end-of-epoch validation in _valid_ events. If you want to show end-of-epoch training & validation curves using pandas, the easiest way would be to have a single `DataFrame` containing all experiments, with each row containing the relevant hyperparameters, step count so far, and training performance. The `trainlog.ops` library helps you "denormalize" the event stream & get it into this convenient form.

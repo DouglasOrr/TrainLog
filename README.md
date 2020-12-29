@@ -10,7 +10,7 @@ over efficiency.
 
 Code to generate the log looks like this:
 
-```python3
+```python
 import trainlog as L
 
 with L.logger.open("log.jsonl", lr=0.01) as logger:
@@ -23,7 +23,7 @@ You can inspect the log using standard tools `gzip -cd log.jsonl.gz | jq -Cc . |
 
 Code to analyse the log looks like this:
 
-```python3
+```python
 import trainlog as L
 import trainlog.ops as O
 
@@ -33,13 +33,7 @@ df = log["step"].to_pandas()
 print(df[["step", "loss"]])
 ```
 
-## Dev - getting started
+## See also
 
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install --upgrade setuptools wheel
-pip install -r requirements-dev.txt
-
-./run
-```
+ - [Design rationale](doc/design.md)
+ - [Developing trainlog yourself](doc/development.md)

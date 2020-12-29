@@ -6,7 +6,8 @@ over efficiency.
 
 **Example**
 
-We'll follow a minimal example of training and analysis using trainlog.
+This is a minimal example of training and analysis using trainlog.
+For a more complete example, see `trainlog.examples.pytorch`.
 
 First some aliased imports. The second is optional (`L.ops.*` would also
 work).

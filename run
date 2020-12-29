@@ -112,7 +112,15 @@ def doc() -> None:
     """generate module documentation"""
     if os.path.exists("build/doc"):
         run("rm", "-r", "build/doc")
-    run("pdoc3", "trainlog", "--html", "--output-dir", "build/doc")
+    run(
+        "pdoc3",
+        "trainlog",
+        "--html",
+        "--output-dir",
+        "build/doc",
+        "--template-dir",
+        "doc/template",
+    )
 
 
 @cli("--no-format", action="store_true")
@@ -123,6 +131,18 @@ def check(no_format: bool) -> None:
     types()
     lint()
     doc()
+
+
+@cli()
+def test_example() -> None:
+    """run slower example tests"""
+    run(
+        "pytest",
+        "-m example",
+        "--no-cov",
+        "--capture=no",
+        *(src for src in SOURCES if os.path.isdir(src)),
+    )
 
 
 @cli()
