@@ -30,7 +30,7 @@ import trainlog.ops as O
 log = L.logs.open("log.jsonl.gz")
 log = log.apply(O.header("lr"), O.count("step"))
 df = log["step"].to_pandas()
-print(df[["step", "loss"]])
+print(df)
 ```
 
 ## See also

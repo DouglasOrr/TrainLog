@@ -34,6 +34,7 @@ def test_readme(tmp_path):
     for n, block in enumerate(get_python_blocks(readme)):
         filename = f"readme_{n}.py"
         (tmp_path / filename).write_text(block)
+        print()
         subprocess.check_call(
             [sys.executable, filename], cwd=tmp_path, env=dict(PYTHONPATH=os.getcwd())
         )
