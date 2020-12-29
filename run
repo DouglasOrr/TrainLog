@@ -13,9 +13,10 @@ def run(*cmd: Optional[str]) -> None:
     """Run the given command, exit immediately on error."""
     command = [arg for arg in cmd if arg is not None]
     print(f"$ {' '.join(command)}", file=sys.stderr)
-    exit_code = subprocess.call(command)
-    if exit_code:
-        sys.exit(exit_code)
+    if not os.environ.get("RUN_DRY_RUN"):
+        exit_code = subprocess.call(command)
+        if exit_code:
+            sys.exit(exit_code)
 
 
 T = TypeVar("T")
@@ -100,6 +101,7 @@ def test(only: Optional[str], capture: bool) -> None:
     run(
         "pytest",
         f"-k {only}" if only else None,
+        "--no-cov" if only else None,
         None if capture else "--capture=no",
         *(src for src in SOURCES if os.path.isdir(src)),
     )
@@ -123,23 +125,54 @@ def check(no_format: bool) -> None:
     doc()
 
 
+@cli()
+def publish_dev() -> None:
+    """publish dev documentation"""
+    doc()
+
+    remote = (
+        subprocess.check_output(["git", "remote", "get-url", "origin"])
+        .decode()
+        .rstrip("\n")
+    )
+    local = "dist/pages"
+    docpath = "dev"
+    local_docpath = f"{local}/{docpath}"
+
+    run("mkdir", "-p", os.path.dirname(local))
+    if not os.path.isdir(local):
+        run("git", "clone", "-b", "pages", remote, local)
+    run("git", "-C", local, "fetch")
+    run("git", "-C", local, "reset", "--hard", "origin/pages")
+    if os.path.isdir(local_docpath):
+        run("rm", "-r", local_docpath)
+    run("cp", "-r", "build/doc/trainlog", local_docpath)
+    run("git", "-C", local, "add", docpath)
+    run("git", "-C", local, "commit", "-m", f"Update {docpath}")
+    run("git", "-C", local, "push", "origin", "HEAD:pages")
+
+
 # Script
 
 
 def _main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "-d", "--dry-run", action="store_true", help="just print, don't execute"
+    )
     parser.set_defaults(action=lambda: check(no_format=False))
     subparsers = parser.add_subparsers()
 
     for key, value in globals().items():
         if hasattr(value, "cli_args"):
-            sub = subparsers.add_parser(key, help=value.__doc__)
+            sub = subparsers.add_parser(key.replace("_", "-"), help=value.__doc__)
             for arg_args, arg_kwargs in getattr(value, "cli_args"):
                 sub.add_argument(*arg_args, **arg_kwargs)
             sub.set_defaults(action=value)
 
     args = vars(parser.parse_args())
     action = args.pop("action")
+    os.environ.setdefault("RUN_DRY_RUN", "1" if args.pop("dry_run") else "")
     action(**args)
 
 
