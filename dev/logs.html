@@ -1,0 +1,1390 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>trainlog.logs API documentation</title>
+<meta name="description" content="Friendly APIs for preprocessing log files …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>trainlog.logs</code></h1>
+</header>
+<section id="section-intro">
+<p>Friendly APIs for preprocessing log files.</p>
+<p>Note that it's simple to handle log files directly, using <code>io.read_jsonlines</code>.
+This API adds a few tools for dealing with heterogenous event streams, before
+handing them off to a tabular data processing library such as pandas.</p>
+<p>For example, we might write the following to generate data that's easy to work
+with in pandas:</p>
+<pre><code>import trainlog.ops as O
+
+logs = trainlog.logs.glob("results/*.jsonl.gz")
+
+logs = logs.apply(
+    O.header("learning_rate"),
+    O.count_if("step"),
+    O.when("valid", O.window("step", 100, O.reduce_mean("loss"), "train_loss")),
+)
+
+df = logs["valid"].to_pandas()
+</code></pre>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Friendly APIs for preprocessing log files.
+
+Note that it&#39;s simple to handle log files directly, using `io.read_jsonlines`.
+This API adds a few tools for dealing with heterogenous event streams, before
+handing them off to a tabular data processing library such as pandas.
+
+For example, we might write the following to generate data that&#39;s easy to work
+with in pandas:
+
+    import trainlog.ops as O
+
+    logs = trainlog.logs.glob(&#34;results/*.jsonl.gz&#34;)
+
+    logs = logs.apply(
+        O.header(&#34;learning_rate&#34;),
+        O.count_if(&#34;step&#34;),
+        O.when(&#34;valid&#34;, O.window(&#34;step&#34;, 100, O.reduce_mean(&#34;loss&#34;), &#34;train_loss&#34;)),
+    )
+
+    df = logs[&#34;valid&#34;].to_pandas()
+&#34;&#34;&#34;
+
+from __future__ import annotations
+
+import datetime
+import glob as pyglob
+import os
+import typing
+from typing import (
+    Any,
+    Dict,
+    Iterable,
+    Iterator,
+    List,
+    Optional,
+    Sequence,
+    Set,
+    Tuple,
+    Union,
+)
+
+from . import io, ops
+from .ops import Event
+
+
+class JsonLinesFile:
+    &#34;&#34;&#34;An event stream that is lazily read from a JSONlines file.
+
+    Note that if the first event in the file has {&#34;kind&#34;: &#34;header&#34;}, this class
+    automatically adds a key {&#34;metadata&#34;: {&#34;path&#34;: ..., &#34;created&#34;: ...,
+    &#34;modified&#34;: ...}}.
+    &#34;&#34;&#34;
+
+    def __init__(self, path: str, load_args: Optional[Dict[str, Any]] = None):
+        self.path = path
+        self.load_args = load_args
+
+    def __repr__(self) -&gt; str:
+        return f&#34;{type(self).__name__}({self.path!r})&#34;
+
+    def __iter__(self) -&gt; Iterator[Event]:
+        iterator: Iterator[Event] = iter(io.read_jsonlines(self.path, self.load_args))
+        try:
+            first_event = next(iterator)
+            if first_event.get(&#34;kind&#34;) == &#34;header&#34;:
+                first_event[&#34;metadata&#34;] = self.metadata
+            yield first_event
+            yield from iterator
+        except StopIteration:
+            pass
+
+    @property
+    def metadata(self) -&gt; Dict[str, Any]:
+        &#34;&#34;&#34;A dictionary of metadata about the file loaded.&#34;&#34;&#34;
+        return dict(
+            path=self.path,
+            created=datetime.datetime.fromtimestamp(
+                os.path.getctime(self.path)
+            ).isoformat(),
+            modified=datetime.datetime.fromtimestamp(
+                os.path.getmtime(self.path)
+            ).isoformat(),
+        )
+
+
+def _events_repr(events: Iterable[Event]) -&gt; str:
+    &#34;&#34;&#34;A string summary for tuples or lists that doesn&#39;t print all the contents.&#34;&#34;&#34;
+    if isinstance(events, (tuple, list)):
+        return f&#34;[{len(events)}]&#34;
+    return repr(events)
+
+
+class Transform:
+    &#34;&#34;&#34;An event stream produced by transforming another stream.
+
+    If we compare two alternatives:
+
+        operation(events)
+        Transform(events, operation)
+
+    The main difference is that the second can be iterated multiple times (as long
+    as `events` can.)
+    &#34;&#34;&#34;
+
+    def __init__(self, events: Iterable[Event], operation: ops.BaseOperation):
+        self.events = events
+        self.operation = operation
+
+    def __repr__(self) -&gt; str:
+        return f&#34;{type(self).__name__}({_events_repr(self.events)}, {self.operation!r})&#34;
+
+    def __iter__(self) -&gt; Iterator[Event]:
+        return self.operation(iter(self.events))
+
+
+def get_header(events: Iterable[Event]) -&gt; Optional[Event]:
+    &#34;&#34;&#34;Extract the header from the event stream.
+
+    The header must be the first event, and have {&#34;kind&#34;: &#34;header&#34;}.
+    &#34;&#34;&#34;
+    first = next(iter(events), None)
+    if first is None:
+        return None
+    if first.get(&#34;kind&#34;) != &#34;header&#34;:
+        return None
+    return first
+
+
+def list_to_array(column: Sequence[Any]) -&gt; Any:
+    &#34;&#34;&#34;Convert a list to a numpy array, with a slight tweak to np.asarray.
+
+    The differences between this &amp; np.asarray is the handling of None, and
+    the ability to output multidimensional arrays.
+
+        list_to_array([1, None]) == np.array([1.0, np.nan])
+
+        list_to_array([[1], [2]]) \
+            == np.array([np.array([1]), np.array([2])], dtype=np.object)
+    &#34;&#34;&#34;
+    import numpy as np  # type: ignore  # pylint: disable=import-outside-toplevel
+
+    types = {type(value) for value in column}
+
+    if {np.ndarray, tuple, list} &amp; types:
+        # Deep structure - this could be a pain, so handle it separately.
+        # We don&#39;t want to generate ND structures anyway, as pandas won&#39;t
+        # handle these
+        objarray = np.full(len(column), None)
+        objarray[:] = column
+        return objarray
+
+    # Use dtype=np.float to convert None to np.nan as long as all types are
+    # numeric
+    dtype = None
+    if type(None) in types and all(
+        t is type(None) or np.dtype(t).kind in &#34;biuf&#34; for t in types  # noqa: E721
+    ):
+        dtype = np.float
+
+    return np.asarray(column, dtype=dtype)
+
+
+class Columns:
+    &#34;&#34;&#34;A set of named columns, stored as arrays (requires numpy).&#34;&#34;&#34;
+
+    def __init__(
+        self, columns: Dict[str, Any], column_order: Optional[Tuple[str, ...]]
+    ):
+        self.columns = columns
+        self.column_order = column_order
+        for name, column in columns.items():
+            attrname = f&#34;{name}_&#34; if hasattr(self, name) else name
+            setattr(self, attrname, column)
+
+    def __repr__(self) -&gt; str:
+        if self.column_order is not None:
+            return f&#34;{type(self).__name__}{self.column_order!r}&#34;
+        return f&#34;{type(self).__name__}{tuple(self.columns)!r}&#34;
+
+    def __getitem__(self, key_or_index: Union[str, int]) -&gt; Any:
+        if isinstance(key_or_index, str):
+            return self.columns[key_or_index]
+        if self.column_order is None:
+            raise ValueError(
+                &#34;Cannot use Columns as an indexable sequence unless it has&#34;
+                &#34; a defined column ordering&#34;
+            )
+        return self.columns[self.column_order[key_or_index]]
+
+    def __len__(self) -&gt; int:
+        return len(self.columns)
+
+    def to_pandas(self) -&gt; Any:
+        &#34;&#34;&#34;Convert to a pandas DataFrame.&#34;&#34;&#34;
+        import pandas  # type: ignore  # pylint: disable=import-outside-toplevel
+
+        df = pandas.DataFrame.from_dict(self.columns)
+        if self.column_order is not None:
+            df = df[list(self.column_order)]
+        return df
+
+    @classmethod
+    def from_events(
+        cls, events: Iterable[Event], columns: Optional[Sequence[str]] = None
+    ) -&gt; Columns:
+        &#34;&#34;&#34;Create a column-oriented copy of a sequence of events.&#34;&#34;&#34;
+        column_values: Dict[str, List[Any]] = {}
+        index = 0
+        for event in events:
+            for key, value in event.items():
+                # Get the column to append &#39;value&#39; to
+                key_column = column_values.get(key)
+                if key_column is None:
+                    if columns is not None and key not in columns:
+                        continue  # An excluded column
+                    key_column = []
+                    column_values[key] = key_column
+
+                # Pad to the current index
+                if len(key_column) &lt; index:
+                    key_column += [None] * (index - len(key_column))
+
+                key_column.append(value)
+            index += 1
+
+        # Make sure all the columns finish the same length
+        for key, key_column in column_values.items():
+            if len(key_column) &lt; index:
+                key_column += [None] * (index - len(key_column))
+
+        return cls(
+            {key: list_to_array(value) for key, value in column_values.items()},
+            column_order=None if columns is None else tuple(columns),
+        )
+
+
+class Log:
+    &#34;&#34;&#34;A friendly API for manipulating a single log file.
+
+    The analysis support here is quite basic, focussed around handling of ordered
+    heterogenous events. We suggest performing further analysis and plotting using
+    {pandas, numpy, scipy, matplotlib, seaborn, etc.}
+    &#34;&#34;&#34;
+
+    def __init__(self, events: Iterable[Event]):
+        self.events = events
+        self.header = get_header(events)
+
+    def __repr__(self) -&gt; str:
+        return f&#34;{type(self).__name__}({_events_repr(self.events)})&#34;
+
+    def __getitem__(self, kind: str) -&gt; Log:
+        &#34;&#34;&#34;Select events of a given kind from the log.
+
+        Equivalent to `log.filter(kind)`.
+        &#34;&#34;&#34;
+        if isinstance(kind, int):
+            raise TypeError(
+                &#34;Cannot use a `Log` as an iterable - consider `Log.events` instead&#34;
+            )
+        return self.filter(kind)
+
+    @property
+    def kinds(self) -&gt; Set[Optional[str]]:
+        &#34;&#34;&#34;The set of {&#34;kind&#34;: kind} from all events in the log.&#34;&#34;&#34;
+        return {typing.cast(Optional[str], event.get(&#34;kind&#34;)) for event in self.events}
+
+    def cache(self) -&gt; Log:
+        &#34;&#34;&#34;Create a log that is loaded into memory, for efficient multiple-traversal.
+
+        Note that this does not change `self`, but returns a new cached Log.
+        &#34;&#34;&#34;
+        if isinstance(self.events, (tuple, list)):
+            return self
+        return type(self)(tuple(self.events))
+
+    def apply(self, *operations: ops.Operation) -&gt; Log:
+        &#34;&#34;&#34;Create a transformed log view of this log.
+
+        Note that the transformation will be executed whenever the log `events`
+        are traversed.
+
+        For example:
+
+            log.apply(ops.count_if(&#34;step&#34;))
+        &#34;&#34;&#34;
+        return type(self)(Transform(self.events, ops.group(*operations)))
+
+    def filter(self, predicate: ops.AutoPredicate) -&gt; Log:
+        &#34;&#34;&#34;Create a filtered log view of this log.&#34;&#34;&#34;
+        return type(self)(Transform(self.events, ops.filter(predicate)))
+
+    def to_columns(self, *columns: str) -&gt; Columns:
+        &#34;&#34;&#34;Convert the log to a set of columns.
+
+        If columns are specified, limit the output to these columns, with a
+        defined order. Otherwise, the columns are autodetected from the log,
+        and in unknown order.
+
+        For example:
+
+            step, loss = log[&#34;valid&#34;].to_columns(&#34;step&#34;, &#34;loss&#34;)
+        &#34;&#34;&#34;
+        return Columns.from_events(self.events, columns if columns else None)
+
+    def to_pandas(self, *columns: str) -&gt; Any:
+        &#34;&#34;&#34;Convert the log to a pandas DataFrame.
+
+        It&#39;s normally easiest to do this for a single event kind at a time.
+        For example:
+
+            dfv = log[&#34;valid&#34;].to_pandas()
+            dfs = log[&#34;step&#34;].to_pandas()
+        &#34;&#34;&#34;
+        return self.to_columns(*columns).to_pandas()
+
+
+class LogSet:
+    &#34;&#34;&#34;A friendly &#34;batched&#34; API for manipulating a set of log files.&#34;&#34;&#34;
+
+    def __init__(self, logs: Sequence[Log]):
+        self.logs = logs
+
+    def __repr__(self) -&gt; str:
+        return f&#34;{type(self).__name__}([{len(self.logs)}])&#34;
+
+    def __getitem__(self, kind_or_index: Union[str, int]) -&gt; Union[LogSet, Log]:
+        &#34;&#34;&#34;Either filter log events (str) or index a single log (int).&#34;&#34;&#34;
+        if isinstance(kind_or_index, str):
+            return self.filter(kind_or_index)
+        return self.logs[kind_or_index]
+
+    def __len__(self) -&gt; int:
+        return len(self.logs)
+
+    def __iter__(self) -&gt; Iterator[Log]:
+        return iter(self.logs)
+
+    @property
+    def events(self) -&gt; Iterator[Event]:
+        &#34;&#34;&#34;A concatenated stream of all events from all logs.&#34;&#34;&#34;
+        for log in self.logs:
+            yield from log.events
+
+    @property
+    def kinds(self) -&gt; Set[Optional[str]]:
+        &#34;&#34;&#34;The set of all {&#34;kind&#34;: kind} from all events in all logs.&#34;&#34;&#34;
+        return {kind for log in self.logs for kind in log.kinds}
+
+    def cache(self) -&gt; LogSet:
+        &#34;&#34;&#34;Create a log set that is loaded into memory, for efficient multiple-traversal.
+
+        Note that this does not change `self`, but returns a new cached LogSet.
+        &#34;&#34;&#34;
+        return type(self)(tuple(log.cache() for log in self.logs))
+
+    def apply(self, *operations: ops.Operation) -&gt; LogSet:
+        &#34;&#34;&#34;Create a (per-event) transformed view of this set of logs.
+
+        For example:
+
+            logs.apply(ops.header(&#34;id&#34;), ops.count_if(&#34;step&#34;))
+        &#34;&#34;&#34;
+        return type(self)(tuple(log.apply(*operations) for log in self.logs))
+
+    def filter(self, predicate: ops.AutoPredicate) -&gt; LogSet:
+        &#34;&#34;&#34;Create a (per-event) filtered view of this set of logs.
+
+        For example:
+
+            logs.filter(&#34;valid&#34;)
+        &#34;&#34;&#34;
+        return type(self)(tuple(log.filter(predicate) for log in self.logs))
+
+    def to_columns(self, *columns: str) -&gt; Columns:
+        &#34;&#34;&#34;Convert the logs to a set of columns.
+
+        If columns are specified, limit the output to these columns, with a
+        defined order. Otherwise, the columns are autodetected from the log,
+        and in unknown order.
+        &#34;&#34;&#34;
+        return Columns.from_events(self.events, columns if columns else None)
+
+    def to_pandas(self, *columns: str) -&gt; Any:
+        &#34;&#34;&#34;Convert the logs to a single pandas DataFrame.
+
+        It&#39;s normally easiest to do this for a single event kind at a time.
+        For example:
+
+            logs[&#34;valid&#34;].to_pandas()
+        &#34;&#34;&#34;
+        return self.to_columns(*columns).to_pandas()
+
+
+def open(  # pylint:disable=redefined-builtin
+    path: str, load_args: Optional[Dict[str, Any]] = None
+) -&gt; Log:
+    &#34;&#34;&#34;Load a single Log from a local JSONLines file (e.g. written by logger.Log).
+
+    For example:
+
+        log = open(&#34;results/log.jsonl.gz&#34;)
+    &#34;&#34;&#34;
+    return Log(JsonLinesFile(path, load_args=load_args))
+
+
+def glob(pattern: str, recursive: bool = False) -&gt; LogSet:
+    &#34;&#34;&#34;Load all logs matched by a local filesystem glob.
+
+    For example:
+
+        logs = glob(&#34;results/**/*.jsonl*&#34;, recursive=True)
+    &#34;&#34;&#34;
+    return LogSet(tuple(open(f) for f in pyglob.glob(pattern, recursive=recursive)))</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="trainlog.logs.get_header"><code class="name flex">
+<span>def <span class="ident">get_header</span></span>(<span>events: Iterable[Event]) ‑> Union[Dict[str, Any], NoneType]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Extract the header from the event stream.</p>
+<p>The header must be the first event, and have {"kind": "header"}.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_header(events: Iterable[Event]) -&gt; Optional[Event]:
+    &#34;&#34;&#34;Extract the header from the event stream.
+
+    The header must be the first event, and have {&#34;kind&#34;: &#34;header&#34;}.
+    &#34;&#34;&#34;
+    first = next(iter(events), None)
+    if first is None:
+        return None
+    if first.get(&#34;kind&#34;) != &#34;header&#34;:
+        return None
+    return first</code></pre>
+</details>
+</dd>
+<dt id="trainlog.logs.glob"><code class="name flex">
+<span>def <span class="ident">glob</span></span>(<span>pattern: str, recursive: bool = False) ‑> <a title="trainlog.logs.LogSet" href="#trainlog.logs.LogSet">LogSet</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Load all logs matched by a local filesystem glob.</p>
+<p>For example:</p>
+<pre><code>logs = glob("results/**/*.jsonl*", recursive=True)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def glob(pattern: str, recursive: bool = False) -&gt; LogSet:
+    &#34;&#34;&#34;Load all logs matched by a local filesystem glob.
+
+    For example:
+
+        logs = glob(&#34;results/**/*.jsonl*&#34;, recursive=True)
+    &#34;&#34;&#34;
+    return LogSet(tuple(open(f) for f in pyglob.glob(pattern, recursive=recursive)))</code></pre>
+</details>
+</dd>
+<dt id="trainlog.logs.list_to_array"><code class="name flex">
+<span>def <span class="ident">list_to_array</span></span>(<span>column: Sequence[Any]) ‑> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert a list to a numpy array, with a slight tweak to np.asarray.</p>
+<p>The differences between this &amp; np.asarray is the handling of None, and
+the ability to output multidimensional arrays.</p>
+<pre><code>list_to_array([1, None]) == np.array([1.0, np.nan])
+
+list_to_array([[1], [2]])             == np.array([np.array([1]), np.array([2])], dtype=np.object)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def list_to_array(column: Sequence[Any]) -&gt; Any:
+    &#34;&#34;&#34;Convert a list to a numpy array, with a slight tweak to np.asarray.
+
+    The differences between this &amp; np.asarray is the handling of None, and
+    the ability to output multidimensional arrays.
+
+        list_to_array([1, None]) == np.array([1.0, np.nan])
+
+        list_to_array([[1], [2]]) \
+            == np.array([np.array([1]), np.array([2])], dtype=np.object)
+    &#34;&#34;&#34;
+    import numpy as np  # type: ignore  # pylint: disable=import-outside-toplevel
+
+    types = {type(value) for value in column}
+
+    if {np.ndarray, tuple, list} &amp; types:
+        # Deep structure - this could be a pain, so handle it separately.
+        # We don&#39;t want to generate ND structures anyway, as pandas won&#39;t
+        # handle these
+        objarray = np.full(len(column), None)
+        objarray[:] = column
+        return objarray
+
+    # Use dtype=np.float to convert None to np.nan as long as all types are
+    # numeric
+    dtype = None
+    if type(None) in types and all(
+        t is type(None) or np.dtype(t).kind in &#34;biuf&#34; for t in types  # noqa: E721
+    ):
+        dtype = np.float
+
+    return np.asarray(column, dtype=dtype)</code></pre>
+</details>
+</dd>
+<dt id="trainlog.logs.open"><code class="name flex">
+<span>def <span class="ident">open</span></span>(<span>path: str, load_args: Optional[Dict[str, Any]] = None) ‑> <a title="trainlog.logs.Log" href="#trainlog.logs.Log">Log</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Load a single Log from a local JSONLines file (e.g. written by logger.Log).</p>
+<p>For example:</p>
+<pre><code>log = open("results/log.jsonl.gz")
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def open(  # pylint:disable=redefined-builtin
+    path: str, load_args: Optional[Dict[str, Any]] = None
+) -&gt; Log:
+    &#34;&#34;&#34;Load a single Log from a local JSONLines file (e.g. written by logger.Log).
+
+    For example:
+
+        log = open(&#34;results/log.jsonl.gz&#34;)
+    &#34;&#34;&#34;
+    return Log(JsonLinesFile(path, load_args=load_args))</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="trainlog.logs.Columns"><code class="flex name class">
+<span>class <span class="ident">Columns</span></span>
+<span>(</span><span>columns: Dict[str, Any], column_order: Optional[Tuple[str, ...]])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A set of named columns, stored as arrays (requires numpy).</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Columns:
+    &#34;&#34;&#34;A set of named columns, stored as arrays (requires numpy).&#34;&#34;&#34;
+
+    def __init__(
+        self, columns: Dict[str, Any], column_order: Optional[Tuple[str, ...]]
+    ):
+        self.columns = columns
+        self.column_order = column_order
+        for name, column in columns.items():
+            attrname = f&#34;{name}_&#34; if hasattr(self, name) else name
+            setattr(self, attrname, column)
+
+    def __repr__(self) -&gt; str:
+        if self.column_order is not None:
+            return f&#34;{type(self).__name__}{self.column_order!r}&#34;
+        return f&#34;{type(self).__name__}{tuple(self.columns)!r}&#34;
+
+    def __getitem__(self, key_or_index: Union[str, int]) -&gt; Any:
+        if isinstance(key_or_index, str):
+            return self.columns[key_or_index]
+        if self.column_order is None:
+            raise ValueError(
+                &#34;Cannot use Columns as an indexable sequence unless it has&#34;
+                &#34; a defined column ordering&#34;
+            )
+        return self.columns[self.column_order[key_or_index]]
+
+    def __len__(self) -&gt; int:
+        return len(self.columns)
+
+    def to_pandas(self) -&gt; Any:
+        &#34;&#34;&#34;Convert to a pandas DataFrame.&#34;&#34;&#34;
+        import pandas  # type: ignore  # pylint: disable=import-outside-toplevel
+
+        df = pandas.DataFrame.from_dict(self.columns)
+        if self.column_order is not None:
+            df = df[list(self.column_order)]
+        return df
+
+    @classmethod
+    def from_events(
+        cls, events: Iterable[Event], columns: Optional[Sequence[str]] = None
+    ) -&gt; Columns:
+        &#34;&#34;&#34;Create a column-oriented copy of a sequence of events.&#34;&#34;&#34;
+        column_values: Dict[str, List[Any]] = {}
+        index = 0
+        for event in events:
+            for key, value in event.items():
+                # Get the column to append &#39;value&#39; to
+                key_column = column_values.get(key)
+                if key_column is None:
+                    if columns is not None and key not in columns:
+                        continue  # An excluded column
+                    key_column = []
+                    column_values[key] = key_column
+
+                # Pad to the current index
+                if len(key_column) &lt; index:
+                    key_column += [None] * (index - len(key_column))
+
+                key_column.append(value)
+            index += 1
+
+        # Make sure all the columns finish the same length
+        for key, key_column in column_values.items():
+            if len(key_column) &lt; index:
+                key_column += [None] * (index - len(key_column))
+
+        return cls(
+            {key: list_to_array(value) for key, value in column_values.items()},
+            column_order=None if columns is None else tuple(columns),
+        )</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="trainlog.logs.Columns.from_events"><code class="name flex">
+<span>def <span class="ident">from_events</span></span>(<span>events: Iterable[Event], columns: Optional[Sequence[str]] = None) ‑> <a title="trainlog.logs.Columns" href="#trainlog.logs.Columns">Columns</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create a column-oriented copy of a sequence of events.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def from_events(
+    cls, events: Iterable[Event], columns: Optional[Sequence[str]] = None
+) -&gt; Columns:
+    &#34;&#34;&#34;Create a column-oriented copy of a sequence of events.&#34;&#34;&#34;
+    column_values: Dict[str, List[Any]] = {}
+    index = 0
+    for event in events:
+        for key, value in event.items():
+            # Get the column to append &#39;value&#39; to
+            key_column = column_values.get(key)
+            if key_column is None:
+                if columns is not None and key not in columns:
+                    continue  # An excluded column
+                key_column = []
+                column_values[key] = key_column
+
+            # Pad to the current index
+            if len(key_column) &lt; index:
+                key_column += [None] * (index - len(key_column))
+
+            key_column.append(value)
+        index += 1
+
+    # Make sure all the columns finish the same length
+    for key, key_column in column_values.items():
+        if len(key_column) &lt; index:
+            key_column += [None] * (index - len(key_column))
+
+    return cls(
+        {key: list_to_array(value) for key, value in column_values.items()},
+        column_order=None if columns is None else tuple(columns),
+    )</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="trainlog.logs.Columns.to_pandas"><code class="name flex">
+<span>def <span class="ident">to_pandas</span></span>(<span>self) ‑> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert to a pandas DataFrame.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_pandas(self) -&gt; Any:
+    &#34;&#34;&#34;Convert to a pandas DataFrame.&#34;&#34;&#34;
+    import pandas  # type: ignore  # pylint: disable=import-outside-toplevel
+
+    df = pandas.DataFrame.from_dict(self.columns)
+    if self.column_order is not None:
+        df = df[list(self.column_order)]
+    return df</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="trainlog.logs.JsonLinesFile"><code class="flex name class">
+<span>class <span class="ident">JsonLinesFile</span></span>
+<span>(</span><span>path: str, load_args: Optional[Dict[str, Any]] = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An event stream that is lazily read from a JSONlines file.</p>
+<p>Note that if the first event in the file has {"kind": "header"}, this class
+automatically adds a key {"metadata": {"path": &hellip;, "created": &hellip;,
+"modified": &hellip;}}.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class JsonLinesFile:
+    &#34;&#34;&#34;An event stream that is lazily read from a JSONlines file.
+
+    Note that if the first event in the file has {&#34;kind&#34;: &#34;header&#34;}, this class
+    automatically adds a key {&#34;metadata&#34;: {&#34;path&#34;: ..., &#34;created&#34;: ...,
+    &#34;modified&#34;: ...}}.
+    &#34;&#34;&#34;
+
+    def __init__(self, path: str, load_args: Optional[Dict[str, Any]] = None):
+        self.path = path
+        self.load_args = load_args
+
+    def __repr__(self) -&gt; str:
+        return f&#34;{type(self).__name__}({self.path!r})&#34;
+
+    def __iter__(self) -&gt; Iterator[Event]:
+        iterator: Iterator[Event] = iter(io.read_jsonlines(self.path, self.load_args))
+        try:
+            first_event = next(iterator)
+            if first_event.get(&#34;kind&#34;) == &#34;header&#34;:
+                first_event[&#34;metadata&#34;] = self.metadata
+            yield first_event
+            yield from iterator
+        except StopIteration:
+            pass
+
+    @property
+    def metadata(self) -&gt; Dict[str, Any]:
+        &#34;&#34;&#34;A dictionary of metadata about the file loaded.&#34;&#34;&#34;
+        return dict(
+            path=self.path,
+            created=datetime.datetime.fromtimestamp(
+                os.path.getctime(self.path)
+            ).isoformat(),
+            modified=datetime.datetime.fromtimestamp(
+                os.path.getmtime(self.path)
+            ).isoformat(),
+        )</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="trainlog.logs.JsonLinesFile.metadata"><code class="name">var <span class="ident">metadata</span> : Dict[str, Any]</code></dt>
+<dd>
+<div class="desc"><p>A dictionary of metadata about the file loaded.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def metadata(self) -&gt; Dict[str, Any]:
+    &#34;&#34;&#34;A dictionary of metadata about the file loaded.&#34;&#34;&#34;
+    return dict(
+        path=self.path,
+        created=datetime.datetime.fromtimestamp(
+            os.path.getctime(self.path)
+        ).isoformat(),
+        modified=datetime.datetime.fromtimestamp(
+            os.path.getmtime(self.path)
+        ).isoformat(),
+    )</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="trainlog.logs.Log"><code class="flex name class">
+<span>class <span class="ident">Log</span></span>
+<span>(</span><span>events: Iterable[Event])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A friendly API for manipulating a single log file.</p>
+<p etc. matplotlib_="matplotlib," numpy_="numpy," pandas_="pandas," scipy_="scipy," seaborn_="seaborn,">The analysis support here is quite basic, focussed around handling of ordered
+heterogenous events. We suggest performing further analysis and plotting using</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Log:
+    &#34;&#34;&#34;A friendly API for manipulating a single log file.
+
+    The analysis support here is quite basic, focussed around handling of ordered
+    heterogenous events. We suggest performing further analysis and plotting using
+    {pandas, numpy, scipy, matplotlib, seaborn, etc.}
+    &#34;&#34;&#34;
+
+    def __init__(self, events: Iterable[Event]):
+        self.events = events
+        self.header = get_header(events)
+
+    def __repr__(self) -&gt; str:
+        return f&#34;{type(self).__name__}({_events_repr(self.events)})&#34;
+
+    def __getitem__(self, kind: str) -&gt; Log:
+        &#34;&#34;&#34;Select events of a given kind from the log.
+
+        Equivalent to `log.filter(kind)`.
+        &#34;&#34;&#34;
+        if isinstance(kind, int):
+            raise TypeError(
+                &#34;Cannot use a `Log` as an iterable - consider `Log.events` instead&#34;
+            )
+        return self.filter(kind)
+
+    @property
+    def kinds(self) -&gt; Set[Optional[str]]:
+        &#34;&#34;&#34;The set of {&#34;kind&#34;: kind} from all events in the log.&#34;&#34;&#34;
+        return {typing.cast(Optional[str], event.get(&#34;kind&#34;)) for event in self.events}
+
+    def cache(self) -&gt; Log:
+        &#34;&#34;&#34;Create a log that is loaded into memory, for efficient multiple-traversal.
+
+        Note that this does not change `self`, but returns a new cached Log.
+        &#34;&#34;&#34;
+        if isinstance(self.events, (tuple, list)):
+            return self
+        return type(self)(tuple(self.events))
+
+    def apply(self, *operations: ops.Operation) -&gt; Log:
+        &#34;&#34;&#34;Create a transformed log view of this log.
+
+        Note that the transformation will be executed whenever the log `events`
+        are traversed.
+
+        For example:
+
+            log.apply(ops.count_if(&#34;step&#34;))
+        &#34;&#34;&#34;
+        return type(self)(Transform(self.events, ops.group(*operations)))
+
+    def filter(self, predicate: ops.AutoPredicate) -&gt; Log:
+        &#34;&#34;&#34;Create a filtered log view of this log.&#34;&#34;&#34;
+        return type(self)(Transform(self.events, ops.filter(predicate)))
+
+    def to_columns(self, *columns: str) -&gt; Columns:
+        &#34;&#34;&#34;Convert the log to a set of columns.
+
+        If columns are specified, limit the output to these columns, with a
+        defined order. Otherwise, the columns are autodetected from the log,
+        and in unknown order.
+
+        For example:
+
+            step, loss = log[&#34;valid&#34;].to_columns(&#34;step&#34;, &#34;loss&#34;)
+        &#34;&#34;&#34;
+        return Columns.from_events(self.events, columns if columns else None)
+
+    def to_pandas(self, *columns: str) -&gt; Any:
+        &#34;&#34;&#34;Convert the log to a pandas DataFrame.
+
+        It&#39;s normally easiest to do this for a single event kind at a time.
+        For example:
+
+            dfv = log[&#34;valid&#34;].to_pandas()
+            dfs = log[&#34;step&#34;].to_pandas()
+        &#34;&#34;&#34;
+        return self.to_columns(*columns).to_pandas()</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="trainlog.logs.Log.kinds"><code class="name">var <span class="ident">kinds</span> : Set[Union[str, NoneType]]</code></dt>
+<dd>
+<div class="desc"><p>The set of {"kind": kind} from all events in the log.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def kinds(self) -&gt; Set[Optional[str]]:
+    &#34;&#34;&#34;The set of {&#34;kind&#34;: kind} from all events in the log.&#34;&#34;&#34;
+    return {typing.cast(Optional[str], event.get(&#34;kind&#34;)) for event in self.events}</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="trainlog.logs.Log.apply"><code class="name flex">
+<span>def <span class="ident">apply</span></span>(<span>self, *operations: ops.Operation) ‑> <a title="trainlog.logs.Log" href="#trainlog.logs.Log">Log</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create a transformed log view of this log.</p>
+<p>Note that the transformation will be executed whenever the log <code>events</code>
+are traversed.</p>
+<p>For example:</p>
+<pre><code>log.apply(ops.count_if("step"))
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def apply(self, *operations: ops.Operation) -&gt; Log:
+    &#34;&#34;&#34;Create a transformed log view of this log.
+
+    Note that the transformation will be executed whenever the log `events`
+    are traversed.
+
+    For example:
+
+        log.apply(ops.count_if(&#34;step&#34;))
+    &#34;&#34;&#34;
+    return type(self)(Transform(self.events, ops.group(*operations)))</code></pre>
+</details>
+</dd>
+<dt id="trainlog.logs.Log.cache"><code class="name flex">
+<span>def <span class="ident">cache</span></span>(<span>self) ‑> <a title="trainlog.logs.Log" href="#trainlog.logs.Log">Log</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create a log that is loaded into memory, for efficient multiple-traversal.</p>
+<p>Note that this does not change <code>self</code>, but returns a new cached Log.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def cache(self) -&gt; Log:
+    &#34;&#34;&#34;Create a log that is loaded into memory, for efficient multiple-traversal.
+
+    Note that this does not change `self`, but returns a new cached Log.
+    &#34;&#34;&#34;
+    if isinstance(self.events, (tuple, list)):
+        return self
+    return type(self)(tuple(self.events))</code></pre>
+</details>
+</dd>
+<dt id="trainlog.logs.Log.filter"><code class="name flex">
+<span>def <span class="ident">filter</span></span>(<span>self, predicate: ops.AutoPredicate) ‑> <a title="trainlog.logs.Log" href="#trainlog.logs.Log">Log</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create a filtered log view of this log.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def filter(self, predicate: ops.AutoPredicate) -&gt; Log:
+    &#34;&#34;&#34;Create a filtered log view of this log.&#34;&#34;&#34;
+    return type(self)(Transform(self.events, ops.filter(predicate)))</code></pre>
+</details>
+</dd>
+<dt id="trainlog.logs.Log.to_columns"><code class="name flex">
+<span>def <span class="ident">to_columns</span></span>(<span>self, *columns: str) ‑> <a title="trainlog.logs.Columns" href="#trainlog.logs.Columns">Columns</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert the log to a set of columns.</p>
+<p>If columns are specified, limit the output to these columns, with a
+defined order. Otherwise, the columns are autodetected from the log,
+and in unknown order.</p>
+<p>For example:</p>
+<pre><code>step, loss = log["valid"].to_columns("step", "loss")
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_columns(self, *columns: str) -&gt; Columns:
+    &#34;&#34;&#34;Convert the log to a set of columns.
+
+    If columns are specified, limit the output to these columns, with a
+    defined order. Otherwise, the columns are autodetected from the log,
+    and in unknown order.
+
+    For example:
+
+        step, loss = log[&#34;valid&#34;].to_columns(&#34;step&#34;, &#34;loss&#34;)
+    &#34;&#34;&#34;
+    return Columns.from_events(self.events, columns if columns else None)</code></pre>
+</details>
+</dd>
+<dt id="trainlog.logs.Log.to_pandas"><code class="name flex">
+<span>def <span class="ident">to_pandas</span></span>(<span>self, *columns: str) ‑> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert the log to a pandas DataFrame.</p>
+<p>It's normally easiest to do this for a single event kind at a time.
+For example:</p>
+<pre><code>dfv = log["valid"].to_pandas()
+dfs = log["step"].to_pandas()
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_pandas(self, *columns: str) -&gt; Any:
+    &#34;&#34;&#34;Convert the log to a pandas DataFrame.
+
+    It&#39;s normally easiest to do this for a single event kind at a time.
+    For example:
+
+        dfv = log[&#34;valid&#34;].to_pandas()
+        dfs = log[&#34;step&#34;].to_pandas()
+    &#34;&#34;&#34;
+    return self.to_columns(*columns).to_pandas()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="trainlog.logs.LogSet"><code class="flex name class">
+<span>class <span class="ident">LogSet</span></span>
+<span>(</span><span>logs: Sequence[<a title="trainlog.logs.Log" href="#trainlog.logs.Log">Log</a>])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A friendly "batched" API for manipulating a set of log files.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class LogSet:
+    &#34;&#34;&#34;A friendly &#34;batched&#34; API for manipulating a set of log files.&#34;&#34;&#34;
+
+    def __init__(self, logs: Sequence[Log]):
+        self.logs = logs
+
+    def __repr__(self) -&gt; str:
+        return f&#34;{type(self).__name__}([{len(self.logs)}])&#34;
+
+    def __getitem__(self, kind_or_index: Union[str, int]) -&gt; Union[LogSet, Log]:
+        &#34;&#34;&#34;Either filter log events (str) or index a single log (int).&#34;&#34;&#34;
+        if isinstance(kind_or_index, str):
+            return self.filter(kind_or_index)
+        return self.logs[kind_or_index]
+
+    def __len__(self) -&gt; int:
+        return len(self.logs)
+
+    def __iter__(self) -&gt; Iterator[Log]:
+        return iter(self.logs)
+
+    @property
+    def events(self) -&gt; Iterator[Event]:
+        &#34;&#34;&#34;A concatenated stream of all events from all logs.&#34;&#34;&#34;
+        for log in self.logs:
+            yield from log.events
+
+    @property
+    def kinds(self) -&gt; Set[Optional[str]]:
+        &#34;&#34;&#34;The set of all {&#34;kind&#34;: kind} from all events in all logs.&#34;&#34;&#34;
+        return {kind for log in self.logs for kind in log.kinds}
+
+    def cache(self) -&gt; LogSet:
+        &#34;&#34;&#34;Create a log set that is loaded into memory, for efficient multiple-traversal.
+
+        Note that this does not change `self`, but returns a new cached LogSet.
+        &#34;&#34;&#34;
+        return type(self)(tuple(log.cache() for log in self.logs))
+
+    def apply(self, *operations: ops.Operation) -&gt; LogSet:
+        &#34;&#34;&#34;Create a (per-event) transformed view of this set of logs.
+
+        For example:
+
+            logs.apply(ops.header(&#34;id&#34;), ops.count_if(&#34;step&#34;))
+        &#34;&#34;&#34;
+        return type(self)(tuple(log.apply(*operations) for log in self.logs))
+
+    def filter(self, predicate: ops.AutoPredicate) -&gt; LogSet:
+        &#34;&#34;&#34;Create a (per-event) filtered view of this set of logs.
+
+        For example:
+
+            logs.filter(&#34;valid&#34;)
+        &#34;&#34;&#34;
+        return type(self)(tuple(log.filter(predicate) for log in self.logs))
+
+    def to_columns(self, *columns: str) -&gt; Columns:
+        &#34;&#34;&#34;Convert the logs to a set of columns.
+
+        If columns are specified, limit the output to these columns, with a
+        defined order. Otherwise, the columns are autodetected from the log,
+        and in unknown order.
+        &#34;&#34;&#34;
+        return Columns.from_events(self.events, columns if columns else None)
+
+    def to_pandas(self, *columns: str) -&gt; Any:
+        &#34;&#34;&#34;Convert the logs to a single pandas DataFrame.
+
+        It&#39;s normally easiest to do this for a single event kind at a time.
+        For example:
+
+            logs[&#34;valid&#34;].to_pandas()
+        &#34;&#34;&#34;
+        return self.to_columns(*columns).to_pandas()</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="trainlog.logs.LogSet.events"><code class="name">var <span class="ident">events</span> : Iterator[Dict[str, Any]]</code></dt>
+<dd>
+<div class="desc"><p>A concatenated stream of all events from all logs.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def events(self) -&gt; Iterator[Event]:
+    &#34;&#34;&#34;A concatenated stream of all events from all logs.&#34;&#34;&#34;
+    for log in self.logs:
+        yield from log.events</code></pre>
+</details>
+</dd>
+<dt id="trainlog.logs.LogSet.kinds"><code class="name">var <span class="ident">kinds</span> : Set[Union[str, NoneType]]</code></dt>
+<dd>
+<div class="desc"><p>The set of all {"kind": kind} from all events in all logs.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def kinds(self) -&gt; Set[Optional[str]]:
+    &#34;&#34;&#34;The set of all {&#34;kind&#34;: kind} from all events in all logs.&#34;&#34;&#34;
+    return {kind for log in self.logs for kind in log.kinds}</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="trainlog.logs.LogSet.apply"><code class="name flex">
+<span>def <span class="ident">apply</span></span>(<span>self, *operations: ops.Operation) ‑> <a title="trainlog.logs.LogSet" href="#trainlog.logs.LogSet">LogSet</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create a (per-event) transformed view of this set of logs.</p>
+<p>For example:</p>
+<pre><code>logs.apply(ops.header("id"), ops.count_if("step"))
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def apply(self, *operations: ops.Operation) -&gt; LogSet:
+    &#34;&#34;&#34;Create a (per-event) transformed view of this set of logs.
+
+    For example:
+
+        logs.apply(ops.header(&#34;id&#34;), ops.count_if(&#34;step&#34;))
+    &#34;&#34;&#34;
+    return type(self)(tuple(log.apply(*operations) for log in self.logs))</code></pre>
+</details>
+</dd>
+<dt id="trainlog.logs.LogSet.cache"><code class="name flex">
+<span>def <span class="ident">cache</span></span>(<span>self) ‑> <a title="trainlog.logs.LogSet" href="#trainlog.logs.LogSet">LogSet</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create a log set that is loaded into memory, for efficient multiple-traversal.</p>
+<p>Note that this does not change <code>self</code>, but returns a new cached LogSet.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def cache(self) -&gt; LogSet:
+    &#34;&#34;&#34;Create a log set that is loaded into memory, for efficient multiple-traversal.
+
+    Note that this does not change `self`, but returns a new cached LogSet.
+    &#34;&#34;&#34;
+    return type(self)(tuple(log.cache() for log in self.logs))</code></pre>
+</details>
+</dd>
+<dt id="trainlog.logs.LogSet.filter"><code class="name flex">
+<span>def <span class="ident">filter</span></span>(<span>self, predicate: ops.AutoPredicate) ‑> <a title="trainlog.logs.LogSet" href="#trainlog.logs.LogSet">LogSet</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create a (per-event) filtered view of this set of logs.</p>
+<p>For example:</p>
+<pre><code>logs.filter("valid")
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def filter(self, predicate: ops.AutoPredicate) -&gt; LogSet:
+    &#34;&#34;&#34;Create a (per-event) filtered view of this set of logs.
+
+    For example:
+
+        logs.filter(&#34;valid&#34;)
+    &#34;&#34;&#34;
+    return type(self)(tuple(log.filter(predicate) for log in self.logs))</code></pre>
+</details>
+</dd>
+<dt id="trainlog.logs.LogSet.to_columns"><code class="name flex">
+<span>def <span class="ident">to_columns</span></span>(<span>self, *columns: str) ‑> <a title="trainlog.logs.Columns" href="#trainlog.logs.Columns">Columns</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert the logs to a set of columns.</p>
+<p>If columns are specified, limit the output to these columns, with a
+defined order. Otherwise, the columns are autodetected from the log,
+and in unknown order.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_columns(self, *columns: str) -&gt; Columns:
+    &#34;&#34;&#34;Convert the logs to a set of columns.
+
+    If columns are specified, limit the output to these columns, with a
+    defined order. Otherwise, the columns are autodetected from the log,
+    and in unknown order.
+    &#34;&#34;&#34;
+    return Columns.from_events(self.events, columns if columns else None)</code></pre>
+</details>
+</dd>
+<dt id="trainlog.logs.LogSet.to_pandas"><code class="name flex">
+<span>def <span class="ident">to_pandas</span></span>(<span>self, *columns: str) ‑> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert the logs to a single pandas DataFrame.</p>
+<p>It's normally easiest to do this for a single event kind at a time.
+For example:</p>
+<pre><code>logs["valid"].to_pandas()
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_pandas(self, *columns: str) -&gt; Any:
+    &#34;&#34;&#34;Convert the logs to a single pandas DataFrame.
+
+    It&#39;s normally easiest to do this for a single event kind at a time.
+    For example:
+
+        logs[&#34;valid&#34;].to_pandas()
+    &#34;&#34;&#34;
+    return self.to_columns(*columns).to_pandas()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="trainlog.logs.Transform"><code class="flex name class">
+<span>class <span class="ident">Transform</span></span>
+<span>(</span><span>events: Iterable[Event], operation: ops.BaseOperation)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An event stream produced by transforming another stream.</p>
+<p>If we compare two alternatives:</p>
+<pre><code>operation(events)
+Transform(events, operation)
+</code></pre>
+<p>The main difference is that the second can be iterated multiple times (as long
+as <code>events</code> can.)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Transform:
+    &#34;&#34;&#34;An event stream produced by transforming another stream.
+
+    If we compare two alternatives:
+
+        operation(events)
+        Transform(events, operation)
+
+    The main difference is that the second can be iterated multiple times (as long
+    as `events` can.)
+    &#34;&#34;&#34;
+
+    def __init__(self, events: Iterable[Event], operation: ops.BaseOperation):
+        self.events = events
+        self.operation = operation
+
+    def __repr__(self) -&gt; str:
+        return f&#34;{type(self).__name__}({_events_repr(self.events)}, {self.operation!r})&#34;
+
+    def __iter__(self) -&gt; Iterator[Event]:
+        return self.operation(iter(self.events))</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="trainlog" href="index.html">trainlog</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="trainlog.logs.get_header" href="#trainlog.logs.get_header">get_header</a></code></li>
+<li><code><a title="trainlog.logs.glob" href="#trainlog.logs.glob">glob</a></code></li>
+<li><code><a title="trainlog.logs.list_to_array" href="#trainlog.logs.list_to_array">list_to_array</a></code></li>
+<li><code><a title="trainlog.logs.open" href="#trainlog.logs.open">open</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="trainlog.logs.Columns" href="#trainlog.logs.Columns">Columns</a></code></h4>
+<ul class="">
+<li><code><a title="trainlog.logs.Columns.from_events" href="#trainlog.logs.Columns.from_events">from_events</a></code></li>
+<li><code><a title="trainlog.logs.Columns.to_pandas" href="#trainlog.logs.Columns.to_pandas">to_pandas</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="trainlog.logs.JsonLinesFile" href="#trainlog.logs.JsonLinesFile">JsonLinesFile</a></code></h4>
+<ul class="">
+<li><code><a title="trainlog.logs.JsonLinesFile.metadata" href="#trainlog.logs.JsonLinesFile.metadata">metadata</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="trainlog.logs.Log" href="#trainlog.logs.Log">Log</a></code></h4>
+<ul class="two-column">
+<li><code><a title="trainlog.logs.Log.apply" href="#trainlog.logs.Log.apply">apply</a></code></li>
+<li><code><a title="trainlog.logs.Log.cache" href="#trainlog.logs.Log.cache">cache</a></code></li>
+<li><code><a title="trainlog.logs.Log.filter" href="#trainlog.logs.Log.filter">filter</a></code></li>
+<li><code><a title="trainlog.logs.Log.kinds" href="#trainlog.logs.Log.kinds">kinds</a></code></li>
+<li><code><a title="trainlog.logs.Log.to_columns" href="#trainlog.logs.Log.to_columns">to_columns</a></code></li>
+<li><code><a title="trainlog.logs.Log.to_pandas" href="#trainlog.logs.Log.to_pandas">to_pandas</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="trainlog.logs.LogSet" href="#trainlog.logs.LogSet">LogSet</a></code></h4>
+<ul class="two-column">
+<li><code><a title="trainlog.logs.LogSet.apply" href="#trainlog.logs.LogSet.apply">apply</a></code></li>
+<li><code><a title="trainlog.logs.LogSet.cache" href="#trainlog.logs.LogSet.cache">cache</a></code></li>
+<li><code><a title="trainlog.logs.LogSet.events" href="#trainlog.logs.LogSet.events">events</a></code></li>
+<li><code><a title="trainlog.logs.LogSet.filter" href="#trainlog.logs.LogSet.filter">filter</a></code></li>
+<li><code><a title="trainlog.logs.LogSet.kinds" href="#trainlog.logs.LogSet.kinds">kinds</a></code></li>
+<li><code><a title="trainlog.logs.LogSet.to_columns" href="#trainlog.logs.LogSet.to_columns">to_columns</a></code></li>
+<li><code><a title="trainlog.logs.LogSet.to_pandas" href="#trainlog.logs.LogSet.to_pandas">to_pandas</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="trainlog.logs.Transform" href="#trainlog.logs.Transform">Transform</a></code></h4>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>
