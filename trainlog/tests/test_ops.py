@@ -87,9 +87,9 @@ def test_sum():
         ops.sum(lambda x: x["examples"])
 
 
-def test_count_if():
+def test_count():
     assert _run(
-        ops.count_if(ops.kind("step")),
+        ops.count(ops.kind("step")),
         dict(kind="header"),
         dict(kind="step"),
         dict(kind="valid"),
@@ -129,7 +129,7 @@ def accuracy(event):
 
 def test_group():
     assert _run(
-        ops.group(ops.count_if("step"), ops.map(accuracy)),
+        ops.group(ops.count("step"), ops.map(accuracy)),
         dict(kind="step", error_rate=0.9),
         dict(kind="valid", error_rate=0.8),
         dict(kind="step", error_rate=0.5),

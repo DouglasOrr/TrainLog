@@ -392,12 +392,14 @@ class LogSet:
         return self.to_columns(*columns).to_pandas()
 
 
-def load(path: str, load_args: Optional[Dict[str, Any]] = None) -> Log:
+def open(  # pylint:disable=redefined-builtin
+    path: str, load_args: Optional[Dict[str, Any]] = None
+) -> Log:
     """Load a single Log from a local JSONLines file (e.g. written by logger.Log).
 
     For example:
 
-        log = load("results/log.jsonl.gz")
+        log = open("results/log.jsonl.gz")
     """
     return Log(JsonLinesFile(path, load_args=load_args))
 
@@ -409,4 +411,4 @@ def glob(pattern: str, recursive: bool = False) -> LogSet:
 
         logs = glob("results/**/*.jsonl*", recursive=True)
     """
-    return LogSet(tuple(load(f) for f in pyglob.glob(pattern, recursive=recursive)))
+    return LogSet(tuple(open(f) for f in pyglob.glob(pattern, recursive=recursive)))

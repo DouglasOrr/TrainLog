@@ -1,5 +1,5 @@
 [tool.pylint."BASIC"]
-good-names = ["i", "j", "k", "f", "ex", "op", "fn", "df", "T"]
+good-names = ["i", "j", "k", "f", "n", "ex", "op", "fn", "df", "T"]
 
 [tool.pylint."SIMILARITIES"]
 min-similarity-lines = 8

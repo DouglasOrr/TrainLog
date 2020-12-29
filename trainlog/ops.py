@@ -1,4 +1,4 @@
-"""Defines Operations to transform sequences of logging events.
+"""Defines operations that transform log event sequences.
 
 Includes a generic abstraction BaseOperation, for any transformation
 of `Iterable[Event] -> Iterable[Event]`.
@@ -323,18 +323,18 @@ def sum(scalarfn: AutoScalarFn, name: Optional[str] = None) -> Operation:
     return Sum(scalarfn, _auto_name(name, scalarfn, prefix="sum_", context="sum"))
 
 
-def count_if(predicate: AutoPredicate, name: Optional[str] = None) -> Operation:
+def count(predicate: AutoPredicate, name: Optional[str] = None) -> Operation:
     """An operation to count occurrences of previous events.
 
     The default `name` is `predicate.__name__`, unless None or "<lambda>".
 
     For example:
 
-        count_if("step")
-        count_if(lambda event: event["loss"] > 10, "n_large_losses")
+        count("step")
+        count(lambda event: event["loss"] > 10, "n_large_losses")
     """
     predicate = to_predicate(predicate)
-    return Sum(predicate, _auto_name(name, predicate, prefix="", context="count_if"))
+    return Sum(predicate, _auto_name(name, predicate, prefix="", context="count"))
 
 
 def window(
@@ -387,7 +387,7 @@ def group(*operations: Operation) -> Operation:
 
     For example:
 
-        group(ops.header("id"), ops.count_if("step"))
+        group(ops.header("id"), ops.count("step"))
     """
     return operations[0] if len(operations) == 1 else Group(operations)
 
@@ -462,11 +462,11 @@ def reduce_mean(key: str) -> Callable[[Iterable[Event]], Optional[float]]:
 
     def reduce(events: Iterable[Event]) -> Optional[float]:
         total = 0
-        count = 0
+        n = 0
         for event in events:
             total += event[key]
-            count += 1
-        return total / count if count else None
+            n += 1
+        return total / n if n else None
 
     reduce.__name__ = f"mean_{key}"
     return reduce

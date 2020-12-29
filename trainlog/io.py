@@ -1,4 +1,8 @@
-"""Core IO abstractions - reading & writing JSON Lines (https://jsonlines.org/)."""
+"""Core IO abstractions - reading & writing JSON Lines (https://jsonlines.org/).
+
+This module provides `JsonLinesIO`, a simplified stream reader/writer for JSON lines,
+which also adds support for serializing/deserializing numpy arrays.
+"""
 
 from __future__ import annotations
 
@@ -115,7 +119,7 @@ class JsonLinesIO(Generic[T]):
 
     See https://jsonlines.org/.
 
-    Similar to TextIO, but writes "JSON-able" objects rather than strings.
+    Similar to `TextIO`, but writes "JSON-able" objects rather than strings.
     """
 
     stream: TextIO

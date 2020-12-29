@@ -105,6 +105,14 @@ def test(only: Optional[str], capture: bool) -> None:
     )
 
 
+@cli()
+def doc() -> None:
+    """generate module documentation"""
+    if os.path.exists("build/doc"):
+        run("rm", "-r", "build/doc")
+    run("pdoc3", "trainlog", "--html", "--output-dir", "build/doc")
+
+
 @cli("--no-format", action="store_true")
 def check(no_format: bool) -> None:
     """run all pre-flight checks"""
@@ -112,6 +120,7 @@ def check(no_format: bool) -> None:
     format(no_format=no_format)
     types()
     lint()
+    doc()
 
 
 # Script

@@ -188,7 +188,7 @@ def test_load_and_glob(tmp_path):
         ],
     )
 
-    log = logs.load(tmp_path / "first.jsonl")
+    log = logs.open(tmp_path / "first.jsonl")
     assert log.header is not None
     assert log.header["name"] == "first"
 
