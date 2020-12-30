@@ -195,7 +195,9 @@ def release() -> None:
     if (
         subprocess.call(["git", "diff", "--quiet"])
         or subprocess.call(["git", "diff", "--cached", "--quiet"])
-        or not subprocess.call(["git", "rev-parse", f"refs/tags/{version}"])
+        or not subprocess.call(
+            ["git", "rev-parse", "--verify", "--quiet", f"refs/tags/{version}"]
+        )
     ):
         print(
             "Error! cannot release with a dirty working tree or already-tagged version",
