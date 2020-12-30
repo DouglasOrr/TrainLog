@@ -9,6 +9,10 @@ over efficiency.
  - [Documentation](https://douglasorr.github.io/TrainLog/latest/)
  - [Code](https://github.com/DouglasOrr/TrainLog)
 
+```bash
+pip install trainlog
+```
+
 ## Example
 
 Code to generate the log looks like this:
