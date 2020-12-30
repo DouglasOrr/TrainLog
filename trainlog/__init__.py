@@ -43,5 +43,6 @@ pandas DataFrame for further analysis.
 """
 
 from . import io, logger, logs, ops  # noqa: F401
+from ._version import __version__  # noqa: F401
 
 __pdoc__ = dict(tests=False)

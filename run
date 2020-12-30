@@ -38,7 +38,7 @@ def cli(*args: Any, **kwargs: Any) -> Callable[[T], T]:
 # Commands
 
 
-SOURCES = ["run", "trainlog"]
+SOURCES = ["trainlog", "run", "setup.py"]
 PYLINT_TEST_IGNORES = ["missing-module-docstring", "missing-function-docstring"]
 
 
