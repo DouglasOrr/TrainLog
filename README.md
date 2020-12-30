@@ -6,6 +6,9 @@ Trainlog's aim is to make it easy to create a single file containing all
 key info about a training run. We prioritize convenience and ease of use
 over efficiency.
 
+ - [Documentation](https://douglasorr.github.io/TrainLog/latest/)
+ - [Code](https://github.com/DouglasOrr/TrainLog)
+
 ## Example
 
 Code to generate the log looks like this:
@@ -35,5 +38,5 @@ print(df)
 
 ## See also
 
- - [Design rationale](doc/design.md)
- - [Developing trainlog yourself](doc/development.md)
+ - [Design rationale](https://github.com/DouglasOrr/TrainLog/tree/master/doc/design.md)
+ - [Developing trainlog yourself](https://github.com/DouglasOrr/TrainLog/tree/master/doc/development.md)

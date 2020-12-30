@@ -3,10 +3,13 @@
 """Dev tasks script"""
 
 import argparse
+import glob
 import os
 import subprocess
 import sys
 from typing import Any, Callable, Iterable, Optional, TypeVar
+
+import trainlog._version
 
 
 def run(*cmd: Optional[str]) -> None:
@@ -145,31 +148,76 @@ def test_example() -> None:
     )
 
 
-@cli()
-def publish_dev() -> None:
-    """publish dev documentation"""
-    doc()
+DIST_PAGES = "dist/pages"
 
+
+def _publish_doc(name: str, replace: bool, latest: bool) -> None:
     remote = (
         subprocess.check_output(["git", "remote", "get-url", "origin"])
         .decode()
         .rstrip("\n")
     )
-    local = "dist/pages"
-    docpath = "dev"
-    local_docpath = f"{local}/{docpath}"
 
-    run("mkdir", "-p", os.path.dirname(local))
-    if not os.path.isdir(local):
-        run("git", "clone", "-b", "pages", remote, local)
-    run("git", "-C", local, "fetch")
-    run("git", "-C", local, "reset", "--hard", "origin/pages")
+    run("mkdir", "-p", os.path.dirname(DIST_PAGES))
+    if not os.path.isdir(DIST_PAGES):
+        run("git", "clone", "-b", "pages", remote, DIST_PAGES)
+    run("git", "-C", DIST_PAGES, "fetch")
+    run("git", "-C", DIST_PAGES, "reset", "--hard", "origin/pages")
+
+    local_docpath = f"{DIST_PAGES}/{name}"
     if os.path.isdir(local_docpath):
-        run("rm", "-r", local_docpath)
+        if replace:
+            run("rm", "-r", local_docpath)
+        else:
+            print(f"Error! {local_docpath!r} already exists", file=sys.stderr)
+            sys.exit(1)
     run("cp", "-r", "build/doc/trainlog", local_docpath)
-    run("git", "-C", local, "add", docpath)
-    run("git", "-C", local, "commit", "-m", f"Update {docpath}")
-    run("git", "-C", local, "push", "origin", "HEAD:pages")
+    if latest:
+        if os.path.isfile(f"{DIST_PAGES}/latest"):
+            run("rm", f"{DIST_PAGES}/latest")
+        run("ln", "-s", name, f"{DIST_PAGES}/latest")
+    run("git", "-C", DIST_PAGES, "add", name, "latest" if latest else None)
+    run("git", "-C", DIST_PAGES, "commit", "-m", f"Update {name}")
+
+
+@cli()
+def publish_dev_doc() -> None:
+    """publish dev documentation"""
+    doc()
+    _publish_doc("dev", replace=True, latest=False)
+    run("git", "-C", DIST_PAGES, "push", "origin", "HEAD:pages")
+
+
+@cli()
+def release() -> None:
+    """release trainlog to pypi & github-pages"""
+    version = trainlog._version.__version__  # pylint:disable=protected-access
+    if (
+        subprocess.call(["git", "diff", "--quiet"])
+        or subprocess.call(["git", "diff", "--cached", "--quiet"])
+        or not subprocess.call(["git", "rev-parse", f"refs/tags/{version}"])
+    ):
+        print(
+            "Error! cannot release with a dirty working tree or already-tagged version",
+            file=sys.stderr,
+        )
+        if not os.environ.get("RUN_DRY_RUN"):
+            sys.exit(1)
+
+    check(no_format=True)
+    test_example()
+    run("python", "setup.py", "sdist", "bdist_wheel")
+    _publish_doc(version, replace=False, latest=True)
+
+    run("twine", "upload", *glob.glob(f"dist/trainlog-{version}*"))
+    run("git", "-C", DIST_PAGES, "push", "origin", "HEAD:pages")
+    run("git", "push", "origin", f"HEAD:refs/tags/{version}")
+
+    print(
+        "### The last step is up to you:\n"
+        "   Please update __version__ in trainlog._version.py",
+        file=sys.stderr,
+    )
 
 
 # Script
