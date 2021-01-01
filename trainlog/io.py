@@ -4,8 +4,6 @@ This module provides `JsonLinesIO`, a simplified stream reader/writer for JSON l
 which also adds support for serializing/deserializing numpy arrays.
 """
 
-from __future__ import annotations
-
 import functools as ft
 import gzip as gzip_
 import json
@@ -139,7 +137,7 @@ class JsonLinesIO(Generic[T]):
         self.load_args = load_args.copy() if load_args else {}
         self.load_args.setdefault("cls", JSONDecoderWithNumpy)
 
-    def __enter__(self) -> JsonLinesIO[T]:
+    def __enter__(self) -> "JsonLinesIO[T]":
         return self
 
     def __exit__(

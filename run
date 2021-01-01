@@ -5,6 +5,7 @@
 import argparse
 import glob
 import os
+import pathlib
 import subprocess
 import sys
 from typing import Any, Callable, Iterable, Optional, TypeVar
@@ -43,6 +44,7 @@ def cli(*args: Any, **kwargs: Any) -> Callable[[T], T]:
 
 SOURCES = ["trainlog", "run", "setup.py"]
 PYLINT_TEST_IGNORES = ["missing-module-docstring", "missing-function-docstring"]
+LEGACY_PYTHON_VERSION = "3.6"
 
 
 def _source_files() -> Iterable[str]:
@@ -148,6 +150,31 @@ def test_example() -> None:
     )
 
 
+@cli("--version", default=LEGACY_PYTHON_VERSION, help="python version to test")
+def test_legacy_python(version: str) -> None:
+    """run standard unit tests on an older Python version (using Docker)"""
+    roots = " ".join(src for src in SOURCES if os.path.isdir(src))
+    # Remove ==VERSION from requirements, as not all are available on older Pythons
+    requirements = " ".join(
+        line.split("==")[0]
+        for file in ["requirements.txt", "requirements-dev.txt"]
+        for line in pathlib.Path(file).read_text().split("\n")
+        if line and not line.startswith("-r")
+    )
+    run(
+        "docker",
+        "run",
+        "--rm",
+        "--interactive",
+        f"--volume={os.getcwd()}:/work",
+        "--workdir=/work",
+        f"python:{version}",
+        "bash",
+        "-c",
+        f"pip install {requirements} && pytest {roots}",
+    )
+
+
 DIST_PAGES = "dist/pages"
 
 
@@ -208,6 +235,7 @@ def release() -> None:
 
     check(no_format=True)
     test_example()
+    test_legacy_python(LEGACY_PYTHON_VERSION)
     run("python", "setup.py", "sdist", "bdist_wheel")
     _publish_doc(version, replace=False, latest=True)
 

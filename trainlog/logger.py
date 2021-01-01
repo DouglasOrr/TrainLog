@@ -1,7 +1,5 @@
 """Friendly API for writing log files."""
 
-from __future__ import annotations
-
 import builtins
 import contextlib
 import datetime
@@ -16,12 +14,16 @@ from typing import (
     Iterable,
     Iterator,
     Optional,
-    Protocol,
     Tuple,
     Type,
 )
 
 from . import io
+
+try:
+    from typing import Protocol
+except ImportError:  # pragma: no cover
+    Protocol = object  # type: ignore[assignment]
 
 Event = Dict[str, Any]
 EventAnnotation = Callable[[Event], Optional[Event]]
@@ -81,7 +83,7 @@ class LogLine:
             line.set(loss=compute_loss())
     """
 
-    def __init__(self, log: Log, scopes: Iterable[LogLineScope], event: Event):
+    def __init__(self, log: "Log", scopes: Iterable[LogLineScope], event: Event):
         self.log = log
         self.scopes = scopes
         self.event = event
@@ -90,7 +92,7 @@ class LogLine:
             self.stack.enter_context(scope(self.event))
         self.finished = False
 
-    def __enter__(self) -> LogLine:
+    def __enter__(self) -> "LogLine":
         return self
 
     def __exit__(
@@ -146,7 +148,7 @@ class Log:
         if header_event is not None:
             self.add(**header_event)
 
-    def __enter__(self) -> Log:
+    def __enter__(self) -> "Log":
         return self
 
     def __exit__(

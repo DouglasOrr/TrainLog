@@ -8,6 +8,7 @@ over efficiency.
 
  - [Documentation](https://douglasorr.github.io/TrainLog/latest/)
  - [Code](https://github.com/DouglasOrr/TrainLog)
+ - [Release notes](https://github.com/DouglasOrr/TrainLog/blob/master/doc/release_notes.md)
 
 ```bash
 pip install trainlog

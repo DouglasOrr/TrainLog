@@ -20,8 +20,6 @@ with in pandas:
     df = logs["valid"].to_pandas()
 """
 
-from __future__ import annotations
-
 import datetime
 import glob as pyglob
 import os
@@ -202,7 +200,7 @@ class Columns:
     @classmethod
     def from_events(
         cls, events: Iterable[Event], columns: Optional[Sequence[str]] = None
-    ) -> Columns:
+    ) -> "Columns":
         """Create a column-oriented copy of a sequence of events."""
         column_values: Dict[str, List[Any]] = {}
         index = 0
@@ -249,7 +247,7 @@ class Log:
     def __repr__(self) -> str:
         return f"{type(self).__name__}({_events_repr(self.events)})"
 
-    def __getitem__(self, kind: str) -> Log:
+    def __getitem__(self, kind: str) -> "Log":
         """Select events of a given kind from the log.
 
         Equivalent to `log.filter(kind)`.
@@ -265,7 +263,7 @@ class Log:
         """The set of {"kind": kind} from all events in the log."""
         return {typing.cast(Optional[str], event.get("kind")) for event in self.events}
 
-    def cache(self) -> Log:
+    def cache(self) -> "Log":
         """Create a log that is loaded into memory, for efficient multiple-traversal.
 
         Note that this does not change `self`, but returns a new cached Log.
@@ -274,7 +272,7 @@ class Log:
             return self
         return type(self)(tuple(self.events))
 
-    def apply(self, *operations: ops.Operation) -> Log:
+    def apply(self, *operations: ops.Operation) -> "Log":
         """Create a transformed log view of this log.
 
         Note that the transformation will be executed whenever the log `events`
@@ -286,7 +284,7 @@ class Log:
         """
         return type(self)(Transform(self.events, ops.group(*operations)))
 
-    def filter(self, predicate: ops.AutoPredicate) -> Log:
+    def filter(self, predicate: ops.AutoPredicate) -> "Log":
         """Create a filtered log view of this log."""
         return type(self)(Transform(self.events, ops.filter(predicate)))
 
@@ -324,7 +322,7 @@ class LogSet:
     def __repr__(self) -> str:
         return f"{type(self).__name__}([{len(self.logs)}])"
 
-    def __getitem__(self, kind_or_index: Union[str, int]) -> Union[LogSet, Log]:
+    def __getitem__(self, kind_or_index: Union[str, int]) -> Union["LogSet", Log]:
         """Either filter log events (str) or index a single log (int)."""
         if isinstance(kind_or_index, str):
             return self.filter(kind_or_index)
@@ -347,14 +345,14 @@ class LogSet:
         """The set of all {"kind": kind} from all events in all logs."""
         return {kind for log in self.logs for kind in log.kinds}
 
-    def cache(self) -> LogSet:
+    def cache(self) -> "LogSet":
         """Create a log set that is loaded into memory, for efficient multiple-traversal.
 
         Note that this does not change `self`, but returns a new cached LogSet.
         """
         return type(self)(tuple(log.cache() for log in self.logs))
 
-    def apply(self, *operations: ops.Operation) -> LogSet:
+    def apply(self, *operations: ops.Operation) -> "LogSet":
         """Create a (per-event) transformed view of this set of logs.
 
         For example:
@@ -363,7 +361,7 @@ class LogSet:
         """
         return type(self)(tuple(log.apply(*operations) for log in self.logs))
 
-    def filter(self, predicate: ops.AutoPredicate) -> LogSet:
+    def filter(self, predicate: ops.AutoPredicate) -> "LogSet":
         """Create a (per-event) filtered view of this set of logs.
 
         For example:
