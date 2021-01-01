@@ -1,0 +1,904 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>trainlog.io API documentation</title>
+<meta name="description" content="Core IO abstractions - reading &amp; writing JSON Lines (https://jsonlines.org/) …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+<style>
+.highlight-line {
+background: #ffa;
+}
+</style>
+<script>
+// Slightly hacky - we want this to run before highlight-js
+document.addEventListener("DOMContentLoaded", function() {
+// Look for the magic sequence "#<==" and highlight what comes before it
+const pattern = /(^\s*)(.+?)\s*#&lt;==/gm;
+const replacement = "$1<mark class=\"highlight-line\">$2</mark>";
+for (let code of document.getElementsByTagName("code")) {
+code.innerHTML = code.innerHTML.replaceAll(pattern, replacement);
+}
+});
+</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>trainlog.io</code></h1>
+</header>
+<section id="section-intro">
+<p>Core IO abstractions - reading &amp; writing JSON Lines (<a href="https://jsonlines.org/">https://jsonlines.org/</a>).</p>
+<p>This module provides <code><a title="trainlog.io.JsonLinesIO" href="#trainlog.io.JsonLinesIO">JsonLinesIO</a></code>, a simplified stream reader/writer for JSON lines,
+which also adds support for serializing/deserializing numpy arrays.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Core IO abstractions - reading &amp; writing JSON Lines (https://jsonlines.org/).
+
+This module provides `JsonLinesIO`, a simplified stream reader/writer for JSON lines,
+which also adds support for serializing/deserializing numpy arrays.
+&#34;&#34;&#34;
+
+import functools as ft
+import gzip as gzip_
+import json
+import os
+import typing
+from types import TracebackType
+from typing import (
+    Any,
+    Callable,
+    Dict,
+    Generic,
+    Iterable,
+    Iterator,
+    Optional,
+    TextIO,
+    Tuple,
+    Type,
+    TypeVar,
+)
+
+T = TypeVar(&#34;T&#34;)
+
+NUMPY_DICT_KEY = &#34;__numpy_dict&#34;
+
+
+def numpy_to_dict(array: Any) -&gt; Dict[str, Any]:
+    &#34;&#34;&#34;Convert a numpy array to a JSON-able dictionary, `numpy_from_dict` restores.&#34;&#34;&#34;
+    return {
+        NUMPY_DICT_KEY: 0,
+        &#34;shape&#34;: list(array.shape),
+        &#34;dtype&#34;: array.dtype.base.name,
+        &#34;items&#34;: array.flatten().tolist(),
+    }
+
+
+def numpy_from_dict(dict_: Dict[str, Any]) -&gt; Any:
+    &#34;&#34;&#34;Convert a JSON-able dictionary from `numpy_to_dict` back to a numpy array.
+
+    This test identifies valid `dict`:
+
+        if trainlog.io.NUMPY_DICT_KEY in dict_:
+            array = numpy_from_dict(dict_)
+    &#34;&#34;&#34;
+    import numpy as np  # type: ignore  # pylint: disable=import-outside-toplevel
+
+    assert dict_[NUMPY_DICT_KEY] == 0
+    shape = tuple(dict_[&#34;shape&#34;])
+    dtype = np.dtype(dict_[&#34;dtype&#34;])
+    items = dict_[&#34;items&#34;]
+    return np.array(items, dtype=dtype).reshape(shape)
+
+
+class JSONEncoderWithNumpy(json.JSONEncoder):
+    &#34;&#34;&#34;Add numpy array support using `numpy_to_dict`.&#34;&#34;&#34;
+
+    def default(self, o: Any) -&gt; Any:
+        if type(o).__name__ == &#34;ndarray&#34;:
+            return numpy_to_dict(o)
+        return super().default(o)
+
+
+ObjectHook = Callable[[Dict[str, Any]], Any]
+ObjectPairsHook = Callable[[Iterable[Tuple[str, Any]]], Any]
+
+
+class JSONDecoderWithNumpy(json.JSONDecoder):
+    &#34;&#34;&#34;Add numpy array support using `numpy_from_dict`.&#34;&#34;&#34;
+
+    @staticmethod
+    def create_object_hook(
+        next_hook: Optional[ObjectHook], dict_: Dict[str, Any]
+    ) -&gt; Any:
+        &#34;&#34;&#34;Create a chained object_hook, which tries `numpy_from_dict` first.&#34;&#34;&#34;
+        if NUMPY_DICT_KEY in dict_:
+            return numpy_from_dict(dict_)
+        if next_hook is not None:
+            return next_hook(dict_)
+        return dict_
+
+    @staticmethod
+    def create_object_pairs_hook(
+        next_hook: ObjectPairsHook, obj_pairs: Iterable[Tuple[str, Any]]
+    ) -&gt; Any:
+        &#34;&#34;&#34;Create a chained object_pairs_hook, which tries `numpy_from_dict` first.&#34;&#34;&#34;
+        dict_ = dict(obj_pairs)
+        if NUMPY_DICT_KEY in dict_:
+            return numpy_from_dict(dict_)
+        return next_hook(obj_pairs)
+
+    def __init__(
+        self,
+        *,
+        object_hook: Optional[ObjectHook] = None,
+        object_pairs_hook: Optional[ObjectPairsHook] = None,
+        **args: Any
+    ):
+        object_pairs_hook = (
+            ft.partial(self.create_object_pairs_hook, object_pairs_hook)
+            if object_pairs_hook is not None
+            else None
+        )
+        super().__init__(
+            object_hook=ft.partial(self.create_object_hook, object_hook),
+            object_pairs_hook=object_pairs_hook,
+            **args
+        )
+
+
+class JsonLinesIO(Generic[T]):
+    &#34;&#34;&#34;Reader/writer for JSON Lines files.
+
+    See https://jsonlines.org/.
+
+    Similar to `TextIO`, but writes &#34;JSON-able&#34; objects rather than strings.
+    &#34;&#34;&#34;
+
+    stream: TextIO
+    dump_args: Dict[str, Any]
+    load_args: Dict[str, Any]
+
+    def __init__(
+        self,
+        stream: TextIO,
+        dump_args: Optional[Dict[str, Any]] = None,
+        load_args: Optional[Dict[str, Any]] = None,
+    ):
+        self.stream = stream
+        self.dump_args = dump_args.copy() if dump_args else {}
+        self.dump_args.setdefault(&#34;separators&#34;, (&#34;,&#34;, &#34;:&#34;))
+        self.dump_args.setdefault(&#34;cls&#34;, JSONEncoderWithNumpy)
+        self.load_args = load_args.copy() if load_args else {}
+        self.load_args.setdefault(&#34;cls&#34;, JSONDecoderWithNumpy)
+
+    def __enter__(self) -&gt; &#34;JsonLinesIO[T]&#34;:
+        return self
+
+    def __exit__(
+        self,
+        exc_type: Optional[Type[BaseException]],
+        exc_value: Optional[BaseException],
+        traceback: Optional[TracebackType],
+    ) -&gt; None:
+        self.close()
+
+    def __iter__(self) -&gt; Iterator[T]:
+        return self.objects()
+
+    def close(self) -&gt; None:
+        &#34;&#34;&#34;Close the underlying text stream.&#34;&#34;&#34;
+        self.stream.close()
+
+    def flush(self) -&gt; None:
+        &#34;&#34;&#34;Flush the underlying text stream.&#34;&#34;&#34;
+        self.stream.flush()
+
+    def write(self, obj: T) -&gt; None:
+        &#34;&#34;&#34;Write an object to the file, as a JSON entry on a single line.&#34;&#34;&#34;
+        json.dump(obj, self.stream, **self.dump_args)
+        self.stream.write(&#34;\n&#34;)
+
+    def read(self) -&gt; T:
+        &#34;&#34;&#34;Read a single object from the file.
+
+        Throws EOFError if there are no more JSON objects in the file.
+        &#34;&#34;&#34;
+        line = self.stream.readline()
+        if not line:
+            raise EOFError(
+                &#34;Attempting to read JSON data past the end of stream&#34;, self.stream
+            )
+        return typing.cast(T, json.loads(line, **self.load_args))
+
+    def objects(self) -&gt; Iterator[T]:
+        &#34;&#34;&#34;An iterator over objects in the file.&#34;&#34;&#34;
+        try:
+            while True:
+                yield self.read()
+        except EOFError:
+            pass
+
+
+def open_maybe_gzip(
+    path: str,
+    mode: str = &#34;r&#34;,
+    gzip: Optional[bool] = None,  # pylint: disable=redefined-outer-name
+) -&gt; TextIO:
+    &#34;&#34;&#34;Open a file, but use gzip.open if appropriate.
+
+    gzip -- Treat the file as GZIP? If `None`, autodetect based on path extension.
+    &#34;&#34;&#34;
+    if gzip or (gzip is None and os.path.splitext(path)[-1] in (&#34;.gz&#34;, &#34;.gzip&#34;)):
+        # Mode should default to text, for consistency with `open()`
+        gzip_mode = mode if &#34;b&#34; in mode or &#34;t&#34; in mode else mode + &#34;t&#34;
+        return typing.cast(TextIO, gzip_.open(path, gzip_mode))
+    return typing.cast(TextIO, open(path, mode))
+
+
+def read_jsonlines(
+    path: str, load_args: Optional[Dict[str, Any]] = None
+) -&gt; Iterator[T]:
+    &#34;&#34;&#34;Read JSON Lines from a local filesystem path.&#34;&#34;&#34;
+    with JsonLinesIO[T](open_maybe_gzip(path), load_args=load_args) as reader:
+        yield from reader
+
+
+def write_jsonlines(
+    path: str, objects: Iterable[T], dump_args: Optional[Dict[str, Any]] = None
+) -&gt; None:
+    &#34;&#34;&#34;Write JSON Lines to a local filesystem path.&#34;&#34;&#34;
+    with JsonLinesIO[T](open_maybe_gzip(path, &#34;w&#34;), dump_args=dump_args) as writer:
+        for obj in objects:
+            writer.write(obj)
+
+
+def gzip(
+    path: str, extension: str = &#34;.gz&#34;, delete: bool = True, chunk_size: int = 1024
+) -&gt; None:
+    &#34;&#34;&#34;Gzip a local file (by default deleting the original afterwards).&#34;&#34;&#34;
+    assert extension, &#34;cannot write the gzip to the file being read&#34;
+    with open(path, &#34;rb&#34;) as srcf, gzip_.open(str(path) + extension, &#34;wb&#34;) as destf:
+        buffer = bytearray(chunk_size)
+        while True:
+            count = srcf.readinto(buffer)  # type: ignore
+            if not count:
+                break
+            destf.write(buffer[:count])
+    if delete:
+        os.remove(path)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="trainlog.io.gzip"><code class="name flex">
+<span>def <span class="ident">gzip</span></span>(<span>path: str, extension: str = '.gz', delete: bool = True, chunk_size: int = 1024) ‑> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gzip a local file (by default deleting the original afterwards).</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def gzip(
+    path: str, extension: str = &#34;.gz&#34;, delete: bool = True, chunk_size: int = 1024
+) -&gt; None:
+    &#34;&#34;&#34;Gzip a local file (by default deleting the original afterwards).&#34;&#34;&#34;
+    assert extension, &#34;cannot write the gzip to the file being read&#34;
+    with open(path, &#34;rb&#34;) as srcf, gzip_.open(str(path) + extension, &#34;wb&#34;) as destf:
+        buffer = bytearray(chunk_size)
+        while True:
+            count = srcf.readinto(buffer)  # type: ignore
+            if not count:
+                break
+            destf.write(buffer[:count])
+    if delete:
+        os.remove(path)</code></pre>
+</details>
+</dd>
+<dt id="trainlog.io.numpy_from_dict"><code class="name flex">
+<span>def <span class="ident">numpy_from_dict</span></span>(<span>dict_: Dict[str, Any]) ‑> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert a JSON-able dictionary from <code><a title="trainlog.io.numpy_to_dict" href="#trainlog.io.numpy_to_dict">numpy_to_dict()</a></code> back to a numpy array.</p>
+<p>This test identifies valid <code>dict</code>:</p>
+<pre><code>if trainlog.io.NUMPY_DICT_KEY in dict_:
+    array = numpy_from_dict(dict_)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def numpy_from_dict(dict_: Dict[str, Any]) -&gt; Any:
+    &#34;&#34;&#34;Convert a JSON-able dictionary from `numpy_to_dict` back to a numpy array.
+
+    This test identifies valid `dict`:
+
+        if trainlog.io.NUMPY_DICT_KEY in dict_:
+            array = numpy_from_dict(dict_)
+    &#34;&#34;&#34;
+    import numpy as np  # type: ignore  # pylint: disable=import-outside-toplevel
+
+    assert dict_[NUMPY_DICT_KEY] == 0
+    shape = tuple(dict_[&#34;shape&#34;])
+    dtype = np.dtype(dict_[&#34;dtype&#34;])
+    items = dict_[&#34;items&#34;]
+    return np.array(items, dtype=dtype).reshape(shape)</code></pre>
+</details>
+</dd>
+<dt id="trainlog.io.numpy_to_dict"><code class="name flex">
+<span>def <span class="ident">numpy_to_dict</span></span>(<span>array: Any) ‑> Dict[str, Any]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert a numpy array to a JSON-able dictionary, <code><a title="trainlog.io.numpy_from_dict" href="#trainlog.io.numpy_from_dict">numpy_from_dict()</a></code> restores.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def numpy_to_dict(array: Any) -&gt; Dict[str, Any]:
+    &#34;&#34;&#34;Convert a numpy array to a JSON-able dictionary, `numpy_from_dict` restores.&#34;&#34;&#34;
+    return {
+        NUMPY_DICT_KEY: 0,
+        &#34;shape&#34;: list(array.shape),
+        &#34;dtype&#34;: array.dtype.base.name,
+        &#34;items&#34;: array.flatten().tolist(),
+    }</code></pre>
+</details>
+</dd>
+<dt id="trainlog.io.open_maybe_gzip"><code class="name flex">
+<span>def <span class="ident">open_maybe_gzip</span></span>(<span>path: str, mode: str = 'r', gzip: Union[bool, NoneType] = None) ‑> <class 'TextIO'></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Open a file, but use gzip.open if appropriate.</p>
+<p>gzip &ndash; Treat the file as GZIP? If <code>None</code>, autodetect based on path extension.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def open_maybe_gzip(
+    path: str,
+    mode: str = &#34;r&#34;,
+    gzip: Optional[bool] = None,  # pylint: disable=redefined-outer-name
+) -&gt; TextIO:
+    &#34;&#34;&#34;Open a file, but use gzip.open if appropriate.
+
+    gzip -- Treat the file as GZIP? If `None`, autodetect based on path extension.
+    &#34;&#34;&#34;
+    if gzip or (gzip is None and os.path.splitext(path)[-1] in (&#34;.gz&#34;, &#34;.gzip&#34;)):
+        # Mode should default to text, for consistency with `open()`
+        gzip_mode = mode if &#34;b&#34; in mode or &#34;t&#34; in mode else mode + &#34;t&#34;
+        return typing.cast(TextIO, gzip_.open(path, gzip_mode))
+    return typing.cast(TextIO, open(path, mode))</code></pre>
+</details>
+</dd>
+<dt id="trainlog.io.read_jsonlines"><code class="name flex">
+<span>def <span class="ident">read_jsonlines</span></span>(<span>path: str, load_args: Union[Dict[str, Any], NoneType] = None) ‑> Iterator[~T]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Read JSON Lines from a local filesystem path.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read_jsonlines(
+    path: str, load_args: Optional[Dict[str, Any]] = None
+) -&gt; Iterator[T]:
+    &#34;&#34;&#34;Read JSON Lines from a local filesystem path.&#34;&#34;&#34;
+    with JsonLinesIO[T](open_maybe_gzip(path), load_args=load_args) as reader:
+        yield from reader</code></pre>
+</details>
+</dd>
+<dt id="trainlog.io.write_jsonlines"><code class="name flex">
+<span>def <span class="ident">write_jsonlines</span></span>(<span>path: str, objects: Iterable[~T], dump_args: Union[Dict[str, Any], NoneType] = None) ‑> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Write JSON Lines to a local filesystem path.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def write_jsonlines(
+    path: str, objects: Iterable[T], dump_args: Optional[Dict[str, Any]] = None
+) -&gt; None:
+    &#34;&#34;&#34;Write JSON Lines to a local filesystem path.&#34;&#34;&#34;
+    with JsonLinesIO[T](open_maybe_gzip(path, &#34;w&#34;), dump_args=dump_args) as writer:
+        for obj in objects:
+            writer.write(obj)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="trainlog.io.JSONDecoderWithNumpy"><code class="flex name class">
+<span>class <span class="ident">JSONDecoderWithNumpy</span></span>
+<span>(</span><span>*, object_hook: Union[Callable[[Dict[str, Any]], Any], NoneType] = None, object_pairs_hook: Union[Callable[[Iterable[Tuple[str, Any]]], Any], NoneType] = None, **args: Any)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Add numpy array support using <code><a title="trainlog.io.numpy_from_dict" href="#trainlog.io.numpy_from_dict">numpy_from_dict()</a></code>.</p>
+<p><code>object_hook</code>, if specified, will be called with the result
+of every JSON object decoded and its return value will be used in
+place of the given <code>dict</code>.
+This can be used to provide custom
+deserializations (e.g. to support JSON-RPC class hinting).</p>
+<p><code>object_pairs_hook</code>, if specified will be called with the result of
+every JSON object decoded with an ordered list of pairs.
+The return
+value of <code>object_pairs_hook</code> will be used instead of the <code>dict</code>.
+This feature can be used to implement custom decoders.
+If <code>object_hook</code> is also defined, the <code>object_pairs_hook</code> takes
+priority.</p>
+<p><code>parse_float</code>, if specified, will be called with the string
+of every JSON float to be decoded. By default this is equivalent to
+float(num_str). This can be used to use another datatype or parser
+for JSON floats (e.g. decimal.Decimal).</p>
+<p><code>parse_int</code>, if specified, will be called with the string
+of every JSON int to be decoded. By default this is equivalent to
+int(num_str). This can be used to use another datatype or parser
+for JSON integers (e.g. float).</p>
+<p><code>parse_constant</code>, if specified, will be called with one of the
+following strings: -Infinity, Infinity, NaN.
+This can be used to raise an exception if invalid JSON numbers
+are encountered.</p>
+<p>If <code>strict</code> is false (true is the default), then control
+characters will be allowed inside strings.
+Control characters in
+this context are those with character codes in the 0-31 range,
+including <code>'\t'</code> (tab), <code>'\n'</code>, <code>'\r'</code> and <code>'\0'</code>.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class JSONDecoderWithNumpy(json.JSONDecoder):
+    &#34;&#34;&#34;Add numpy array support using `numpy_from_dict`.&#34;&#34;&#34;
+
+    @staticmethod
+    def create_object_hook(
+        next_hook: Optional[ObjectHook], dict_: Dict[str, Any]
+    ) -&gt; Any:
+        &#34;&#34;&#34;Create a chained object_hook, which tries `numpy_from_dict` first.&#34;&#34;&#34;
+        if NUMPY_DICT_KEY in dict_:
+            return numpy_from_dict(dict_)
+        if next_hook is not None:
+            return next_hook(dict_)
+        return dict_
+
+    @staticmethod
+    def create_object_pairs_hook(
+        next_hook: ObjectPairsHook, obj_pairs: Iterable[Tuple[str, Any]]
+    ) -&gt; Any:
+        &#34;&#34;&#34;Create a chained object_pairs_hook, which tries `numpy_from_dict` first.&#34;&#34;&#34;
+        dict_ = dict(obj_pairs)
+        if NUMPY_DICT_KEY in dict_:
+            return numpy_from_dict(dict_)
+        return next_hook(obj_pairs)
+
+    def __init__(
+        self,
+        *,
+        object_hook: Optional[ObjectHook] = None,
+        object_pairs_hook: Optional[ObjectPairsHook] = None,
+        **args: Any
+    ):
+        object_pairs_hook = (
+            ft.partial(self.create_object_pairs_hook, object_pairs_hook)
+            if object_pairs_hook is not None
+            else None
+        )
+        super().__init__(
+            object_hook=ft.partial(self.create_object_hook, object_hook),
+            object_pairs_hook=object_pairs_hook,
+            **args
+        )</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>json.decoder.JSONDecoder</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="trainlog.io.JSONDecoderWithNumpy.create_object_hook"><code class="name flex">
+<span>def <span class="ident">create_object_hook</span></span>(<span>next_hook: Union[Callable[[Dict[str, Any]], Any], NoneType], dict_: Dict[str, Any]) ‑> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create a chained object_hook, which tries <code><a title="trainlog.io.numpy_from_dict" href="#trainlog.io.numpy_from_dict">numpy_from_dict()</a></code> first.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def create_object_hook(
+    next_hook: Optional[ObjectHook], dict_: Dict[str, Any]
+) -&gt; Any:
+    &#34;&#34;&#34;Create a chained object_hook, which tries `numpy_from_dict` first.&#34;&#34;&#34;
+    if NUMPY_DICT_KEY in dict_:
+        return numpy_from_dict(dict_)
+    if next_hook is not None:
+        return next_hook(dict_)
+    return dict_</code></pre>
+</details>
+</dd>
+<dt id="trainlog.io.JSONDecoderWithNumpy.create_object_pairs_hook"><code class="name flex">
+<span>def <span class="ident">create_object_pairs_hook</span></span>(<span>next_hook: Callable[[Iterable[Tuple[str, Any]]], Any], obj_pairs: Iterable[Tuple[str, Any]]) ‑> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create a chained object_pairs_hook, which tries <code><a title="trainlog.io.numpy_from_dict" href="#trainlog.io.numpy_from_dict">numpy_from_dict()</a></code> first.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def create_object_pairs_hook(
+    next_hook: ObjectPairsHook, obj_pairs: Iterable[Tuple[str, Any]]
+) -&gt; Any:
+    &#34;&#34;&#34;Create a chained object_pairs_hook, which tries `numpy_from_dict` first.&#34;&#34;&#34;
+    dict_ = dict(obj_pairs)
+    if NUMPY_DICT_KEY in dict_:
+        return numpy_from_dict(dict_)
+    return next_hook(obj_pairs)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="trainlog.io.JSONEncoderWithNumpy"><code class="flex name class">
+<span>class <span class="ident">JSONEncoderWithNumpy</span></span>
+<span>(</span><span>*, skipkeys=False, ensure_ascii=True, check_circular=True, allow_nan=True, sort_keys=False, indent=None, separators=None, default=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Add numpy array support using <code><a title="trainlog.io.numpy_to_dict" href="#trainlog.io.numpy_to_dict">numpy_to_dict()</a></code>.</p>
+<p>Constructor for JSONEncoder, with sensible defaults.</p>
+<p>If skipkeys is false, then it is a TypeError to attempt
+encoding of keys that are not str, int, float or None.
+If
+skipkeys is True, such items are simply skipped.</p>
+<p>If ensure_ascii is true, the output is guaranteed to be str
+objects with all incoming non-ASCII characters escaped.
+If
+ensure_ascii is false, the output can contain non-ASCII characters.</p>
+<p>If check_circular is true, then lists, dicts, and custom encoded
+objects will be checked for circular references during encoding to
+prevent an infinite recursion (which would cause an OverflowError).
+Otherwise, no such check takes place.</p>
+<p>If allow_nan is true, then NaN, Infinity, and -Infinity will be
+encoded as such.
+This behavior is not JSON specification compliant,
+but is consistent with most JavaScript based encoders and decoders.
+Otherwise, it will be a ValueError to encode such floats.</p>
+<p>If sort_keys is true, then the output of dictionaries will be
+sorted by key; this is useful for regression tests to ensure
+that JSON serializations can be compared on a day-to-day basis.</p>
+<p>If indent is a non-negative integer, then JSON array
+elements and object members will be pretty-printed with that
+indent level.
+An indent level of 0 will only insert newlines.
+None is the most compact representation.</p>
+<p>If specified, separators should be an (item_separator, key_separator)
+tuple.
+The default is (', ', ': ') if <em>indent</em> is <code>None</code> and
+(',', ': ') otherwise.
+To get the most compact JSON representation,
+you should specify (',', ':') to eliminate whitespace.</p>
+<p>If specified, default is a function that gets called for objects
+that can't otherwise be serialized.
+It should return a JSON encodable
+version of the object or raise a <code>TypeError</code>.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class JSONEncoderWithNumpy(json.JSONEncoder):
+    &#34;&#34;&#34;Add numpy array support using `numpy_to_dict`.&#34;&#34;&#34;
+
+    def default(self, o: Any) -&gt; Any:
+        if type(o).__name__ == &#34;ndarray&#34;:
+            return numpy_to_dict(o)
+        return super().default(o)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>json.encoder.JSONEncoder</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="trainlog.io.JSONEncoderWithNumpy.default"><code class="name flex">
+<span>def <span class="ident">default</span></span>(<span>self, o: Any) ‑> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Implement this method in a subclass such that it returns
+a serializable object for <code>o</code>, or calls the base implementation
+(to raise a <code>TypeError</code>).</p>
+<p>For example, to support arbitrary iterators, you could
+implement default like this::</p>
+<pre><code>def default(self, o):
+    try:
+        iterable = iter(o)
+    except TypeError:
+        pass
+    else:
+        return list(iterable)
+    # Let the base class default method raise the TypeError
+    return JSONEncoder.default(self, o)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def default(self, o: Any) -&gt; Any:
+    if type(o).__name__ == &#34;ndarray&#34;:
+        return numpy_to_dict(o)
+    return super().default(o)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="trainlog.io.JsonLinesIO"><code class="flex name class">
+<span>class <span class="ident">JsonLinesIO</span></span>
+<span>(</span><span>stream: <class 'TextIO'>, dump_args: Union[Dict[str, Any], NoneType] = None, load_args: Union[Dict[str, Any], NoneType] = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Reader/writer for JSON Lines files.</p>
+<p>See <a href="https://jsonlines.org/.">https://jsonlines.org/.</a></p>
+<p>Similar to <code>TextIO</code>, but writes "JSON-able" objects rather than strings.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class JsonLinesIO(Generic[T]):
+    &#34;&#34;&#34;Reader/writer for JSON Lines files.
+
+    See https://jsonlines.org/.
+
+    Similar to `TextIO`, but writes &#34;JSON-able&#34; objects rather than strings.
+    &#34;&#34;&#34;
+
+    stream: TextIO
+    dump_args: Dict[str, Any]
+    load_args: Dict[str, Any]
+
+    def __init__(
+        self,
+        stream: TextIO,
+        dump_args: Optional[Dict[str, Any]] = None,
+        load_args: Optional[Dict[str, Any]] = None,
+    ):
+        self.stream = stream
+        self.dump_args = dump_args.copy() if dump_args else {}
+        self.dump_args.setdefault(&#34;separators&#34;, (&#34;,&#34;, &#34;:&#34;))
+        self.dump_args.setdefault(&#34;cls&#34;, JSONEncoderWithNumpy)
+        self.load_args = load_args.copy() if load_args else {}
+        self.load_args.setdefault(&#34;cls&#34;, JSONDecoderWithNumpy)
+
+    def __enter__(self) -&gt; &#34;JsonLinesIO[T]&#34;:
+        return self
+
+    def __exit__(
+        self,
+        exc_type: Optional[Type[BaseException]],
+        exc_value: Optional[BaseException],
+        traceback: Optional[TracebackType],
+    ) -&gt; None:
+        self.close()
+
+    def __iter__(self) -&gt; Iterator[T]:
+        return self.objects()
+
+    def close(self) -&gt; None:
+        &#34;&#34;&#34;Close the underlying text stream.&#34;&#34;&#34;
+        self.stream.close()
+
+    def flush(self) -&gt; None:
+        &#34;&#34;&#34;Flush the underlying text stream.&#34;&#34;&#34;
+        self.stream.flush()
+
+    def write(self, obj: T) -&gt; None:
+        &#34;&#34;&#34;Write an object to the file, as a JSON entry on a single line.&#34;&#34;&#34;
+        json.dump(obj, self.stream, **self.dump_args)
+        self.stream.write(&#34;\n&#34;)
+
+    def read(self) -&gt; T:
+        &#34;&#34;&#34;Read a single object from the file.
+
+        Throws EOFError if there are no more JSON objects in the file.
+        &#34;&#34;&#34;
+        line = self.stream.readline()
+        if not line:
+            raise EOFError(
+                &#34;Attempting to read JSON data past the end of stream&#34;, self.stream
+            )
+        return typing.cast(T, json.loads(line, **self.load_args))
+
+    def objects(self) -&gt; Iterator[T]:
+        &#34;&#34;&#34;An iterator over objects in the file.&#34;&#34;&#34;
+        try:
+            while True:
+                yield self.read()
+        except EOFError:
+            pass</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>typing.Generic</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="trainlog.io.JsonLinesIO.dump_args"><code class="name">var <span class="ident">dump_args</span> : Dict[str, Any]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="trainlog.io.JsonLinesIO.load_args"><code class="name">var <span class="ident">load_args</span> : Dict[str, Any]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="trainlog.io.JsonLinesIO.stream"><code class="name">var <span class="ident">stream</span> : <class 'TextIO'></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="trainlog.io.JsonLinesIO.close"><code class="name flex">
+<span>def <span class="ident">close</span></span>(<span>self) ‑> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Close the underlying text stream.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def close(self) -&gt; None:
+    &#34;&#34;&#34;Close the underlying text stream.&#34;&#34;&#34;
+    self.stream.close()</code></pre>
+</details>
+</dd>
+<dt id="trainlog.io.JsonLinesIO.flush"><code class="name flex">
+<span>def <span class="ident">flush</span></span>(<span>self) ‑> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Flush the underlying text stream.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def flush(self) -&gt; None:
+    &#34;&#34;&#34;Flush the underlying text stream.&#34;&#34;&#34;
+    self.stream.flush()</code></pre>
+</details>
+</dd>
+<dt id="trainlog.io.JsonLinesIO.objects"><code class="name flex">
+<span>def <span class="ident">objects</span></span>(<span>self) ‑> Iterator[~T]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An iterator over objects in the file.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def objects(self) -&gt; Iterator[T]:
+    &#34;&#34;&#34;An iterator over objects in the file.&#34;&#34;&#34;
+    try:
+        while True:
+            yield self.read()
+    except EOFError:
+        pass</code></pre>
+</details>
+</dd>
+<dt id="trainlog.io.JsonLinesIO.read"><code class="name flex">
+<span>def <span class="ident">read</span></span>(<span>self) ‑> ~T</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Read a single object from the file.</p>
+<p>Throws EOFError if there are no more JSON objects in the file.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read(self) -&gt; T:
+    &#34;&#34;&#34;Read a single object from the file.
+
+    Throws EOFError if there are no more JSON objects in the file.
+    &#34;&#34;&#34;
+    line = self.stream.readline()
+    if not line:
+        raise EOFError(
+            &#34;Attempting to read JSON data past the end of stream&#34;, self.stream
+        )
+    return typing.cast(T, json.loads(line, **self.load_args))</code></pre>
+</details>
+</dd>
+<dt id="trainlog.io.JsonLinesIO.write"><code class="name flex">
+<span>def <span class="ident">write</span></span>(<span>self, obj: ~T) ‑> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Write an object to the file, as a JSON entry on a single line.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def write(self, obj: T) -&gt; None:
+    &#34;&#34;&#34;Write an object to the file, as a JSON entry on a single line.&#34;&#34;&#34;
+    json.dump(obj, self.stream, **self.dump_args)
+    self.stream.write(&#34;\n&#34;)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="trainlog" href="index.html">trainlog</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="two-column">
+<li><code><a title="trainlog.io.gzip" href="#trainlog.io.gzip">gzip</a></code></li>
+<li><code><a title="trainlog.io.numpy_from_dict" href="#trainlog.io.numpy_from_dict">numpy_from_dict</a></code></li>
+<li><code><a title="trainlog.io.numpy_to_dict" href="#trainlog.io.numpy_to_dict">numpy_to_dict</a></code></li>
+<li><code><a title="trainlog.io.open_maybe_gzip" href="#trainlog.io.open_maybe_gzip">open_maybe_gzip</a></code></li>
+<li><code><a title="trainlog.io.read_jsonlines" href="#trainlog.io.read_jsonlines">read_jsonlines</a></code></li>
+<li><code><a title="trainlog.io.write_jsonlines" href="#trainlog.io.write_jsonlines">write_jsonlines</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="trainlog.io.JSONDecoderWithNumpy" href="#trainlog.io.JSONDecoderWithNumpy">JSONDecoderWithNumpy</a></code></h4>
+<ul class="">
+<li><code><a title="trainlog.io.JSONDecoderWithNumpy.create_object_hook" href="#trainlog.io.JSONDecoderWithNumpy.create_object_hook">create_object_hook</a></code></li>
+<li><code><a title="trainlog.io.JSONDecoderWithNumpy.create_object_pairs_hook" href="#trainlog.io.JSONDecoderWithNumpy.create_object_pairs_hook">create_object_pairs_hook</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="trainlog.io.JSONEncoderWithNumpy" href="#trainlog.io.JSONEncoderWithNumpy">JSONEncoderWithNumpy</a></code></h4>
+<ul class="">
+<li><code><a title="trainlog.io.JSONEncoderWithNumpy.default" href="#trainlog.io.JSONEncoderWithNumpy.default">default</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="trainlog.io.JsonLinesIO" href="#trainlog.io.JsonLinesIO">JsonLinesIO</a></code></h4>
+<ul class="two-column">
+<li><code><a title="trainlog.io.JsonLinesIO.close" href="#trainlog.io.JsonLinesIO.close">close</a></code></li>
+<li><code><a title="trainlog.io.JsonLinesIO.dump_args" href="#trainlog.io.JsonLinesIO.dump_args">dump_args</a></code></li>
+<li><code><a title="trainlog.io.JsonLinesIO.flush" href="#trainlog.io.JsonLinesIO.flush">flush</a></code></li>
+<li><code><a title="trainlog.io.JsonLinesIO.load_args" href="#trainlog.io.JsonLinesIO.load_args">load_args</a></code></li>
+<li><code><a title="trainlog.io.JsonLinesIO.objects" href="#trainlog.io.JsonLinesIO.objects">objects</a></code></li>
+<li><code><a title="trainlog.io.JsonLinesIO.read" href="#trainlog.io.JsonLinesIO.read">read</a></code></li>
+<li><code><a title="trainlog.io.JsonLinesIO.stream" href="#trainlog.io.JsonLinesIO.stream">stream</a></code></li>
+<li><code><a title="trainlog.io.JsonLinesIO.write" href="#trainlog.io.JsonLinesIO.write">write</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>
